@@ -1,0 +1,4 @@
+interface:
+  display_name: "打造技能 1.1（常规升级版）"
+  short_description: "意图优先、精益编写、带验证门的技能创建器 v1.1"
+  default_prompt: "Use $skill-forge-1-1 to create a lean, validated skill for a repeatable workflow."

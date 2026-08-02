@@ -1,0 +1,4 @@
+interface:
+  display_name: "检索世界 Pro"
+  short_description: "先搜索再动手：快速找出世界上已有的现成方案，避免重复造轮子。"
+  default_prompt: "用 $jian-suo-shi-jie-pro 帮我找做「智能体回归测试」的现成方案，并生成方案卡。"

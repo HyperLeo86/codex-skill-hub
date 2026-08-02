@@ -1,0 +1,4 @@
+interface:
+  display_name: "范式跃迁"
+  short_description: "解题前换坐标系：压缩→扫描→抽象→迁移→验证→固化，实现降维打击。"
+  default_prompt: "用 $fan-shi-yue-qian 深度优化「检索世界」，找出跃迁升级空间。"

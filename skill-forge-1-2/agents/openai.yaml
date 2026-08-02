@@ -1,0 +1,4 @@
+interface:
+  display_name: "打造技能 1.2（范式跃迁版）"
+  short_description: "契约驱动、可测试、自进化的技能生成工具 v1.2版"
+  default_prompt: "Use $skill-forge-1-2 to turn a one-page skill contract into a tested, self-evolving skill."
