@@ -5,7 +5,7 @@ description: 按「技能发布与版本管理规范」生成、校验 Codex 技
 
 # skill-publisher
 
-**版本**：1.1（2026-08-03）
+**版本**：1.2（2026-08-03）
 
 ## 概览
 
@@ -28,13 +28,15 @@ description: 按「技能发布与版本管理规范」生成、校验 Codex 技
 3. **校验（自动门）**：先运行 `scripts/validate_skills.sh`——内置 `gh skill publish --fix`（GitHub 官方 agentskills 校验 + 安全检查）与 `skills-ref validate`（全库逐技能校验）双保险，全绿才允许继续；再运行 `check_skill.py <dir> [spec.json]` 做结构/token/账本检查，要求 name=目录名、英文小写连写、frontmatter 合规、token 不超预算。
 4. **保存**：仓库固定目录 `~/Documents/codex-skill-hub/<skill-name>/`（已存在则复用，不重复创建）；需要使用时再安装到 `~/.codex/skills/<skill-name>/`。
 5. **版本**：更新 SKILL.md 头部 `**版本**：X.Y（日期）`；在技能文件夹内 `CHANGELOG.md` 按升序追加当前版本与变更内容（旧版本只记录不建目录）。
-6. **发布**：校验门全绿后执行 git add + commit → 打 tag `<skill-name>@vX.Y` → `git push origin main` + `git push --tags`。
-7. **幂等复查**：确认无重复目录、无重复 tag；tag 已存在时对比内容只做增量提交；输出发布结果（tag 名、提交号、仓库链接）。
+6. **同步 README**：运行 `scripts/update_readme.py <仓库目录>`，确保 README 技能清单覆盖所有含 SKILL.md 的技能目录且版本与 SKILL.md 一致（幂等，无变化不写文件）。
+7. **发布**：校验门全绿后执行 git add + commit → 打 tag `<skill-name>@vX.Y` → `git push origin main` + `git push --tags`。
+8. **幂等复查**：确认无重复目录、无重复 tag；tag 已存在时对比内容只做增量提交；输出发布结果（tag 名、提交号、仓库链接）。
 
 ## 验收（来自契约）
 
 - SKILL.md 通过官方校验且 name=目录名（英文小写连写）
 - 文件夹内 CHANGELOG.md 记录了当前版本与变更
+- README 技能清单包含全部含 SKILL.md 的技能目录，版本与 SKILL.md 一致
 - git tag <skill-name>@vX.Y 已推送到 GitHub
 - 重复执行不产生重复目录或重复 tag（幂等）
 
@@ -43,11 +45,13 @@ description: 按「技能发布与版本管理规范」生成、校验 Codex 技
 - gh 未登录或权限不足 → 提示先运行 gh auth login，认证完成前不发布
 - 技能校验失败 → 按报错修复后重跑校验，禁止放宽规则通过
 - 目录或 tag 已存在 → 复用现有目录与 tag，对比内容差异后只做增量提交，不重复创建
+- README 缺失或清单与技能目录不一致 → 先运行 update_readme.py 修复，禁止跳过 README 直接发布
 - 外部依赖缺失（gh / API key） → 读取环境变量或 ~/.config/<skill>/ 配置文件，缺失时明确提示，不静默跳过
 
 ## 资源
 
 - scripts/validate_skills.sh：发布前自动校验门（gh skill + skills-ref 双绿，全库扫描）
+- scripts/update_readme.py：README 技能清单同步（发布前必跑，幂等）
 - scripts/：确定性逻辑，直接运行
 - references/spec.md：技能发布与版本管理规范（与 Obsidian「我的skills」同源）
 - references/regressions.md：回归账本（升级前全量回归）

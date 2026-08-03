@@ -1,6 +1,6 @@
 # 技能发布与版本管理规范（Codex Skills）
 
-> 状态：v1.0 · 2026-08-03 定稿 · 适用仓库：`codex-skill-hub`（私有）
+> 状态：v1.2 · 2026-08-03 更新 · 适用仓库：`codex-skill-hub`（私有）
 > 依据：agentskills.io 开放规范、GitHub CLI `gh skill` 官方工具、OpenAI Codex 官方文档，以及个人实践。
 
 ## 1. 总则
@@ -77,8 +77,8 @@ skill-name/
 1. 版本号用 `1.1`、`1.2` 式（major.minor）；破坏性变更升 major。
 2. SKILL.md 正文头部写一行：`**版本**：X.Y（YYYY-MM-DD）`。
 3. 每个技能文件夹内 `CHANGELOG.md`，按版本**升序**记录：`## 1.1` → `## 1.2`，每条注明日期与变更内容；旧版本不建目录。
-4. git tag 格式：`<skill-name>@vX.Y`（如 `skill-publisher@v1.0`），tag 推送到 GitHub。
-5. 升级流程：改内容 → 更新版本行 + CHANGELOG → 校验 → commit → tag → push。
+4. git tag 格式：`<skill-name>@vX.Y`（如 `skill-publisher@v1.2`），tag 推送到 GitHub。
+5. 升级流程：改内容 → 更新版本行 + CHANGELOG → 同步 README 技能清单 → 校验 → commit → tag → push。
 6. 幂等：目录已存在则复用；tag 已存在则对比内容，不重复创建。
 
 ## 7. 发布规范（GitHub）
@@ -87,6 +87,7 @@ skill-name/
 2. 校验（自动门）：发布前必须运行 `skill-publisher/scripts/validate_skills.sh`——内置 `gh skill publish --fix`（官方 agentskills 规范 + 安全检查）与 `skills-ref validate`（全库逐技能）双校验，双绿后 `git push --tags`。
 3. 推荐开启：tag protection、secret scanning、code scanning；公开分享时开启 immutable releases。
 4. 敏感信息：API key 一律环境变量或 `~/.config/<skill-name>/*.env`，禁止入库。
+5. **README 同步**：每次发布/更新技能后必须运行 `skill-publisher/scripts/update_readme.py <仓库目录>` 更新 README 技能清单（技能名 / 版本 / 说明），清单须与全部含 SKILL.md 的技能目录一致；幂等，无变化不产生提交。
 
 ## 8. 参考来源
 
@@ -99,5 +100,6 @@ skill-name/
 ## 9. 待办
 
 - ✅ 已完成：gh skill publish --fix + skills-ref validate 已内嵌为 skill-publisher 1.1 的自动校验门
+- ✅ 已完成：v1.2 内嵌 README 技能清单同步（update_readme.py）
 - 公开分享前为技能补 license 字段（当前私有仓库，仅推荐非必填）
 - 本地旧版本目录清理（skill-forge-1-1/1-2/1-3、jian-suo-shi-jie-pro；现已有备份，可随时删除）
