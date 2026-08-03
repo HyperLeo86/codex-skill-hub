@@ -256,7 +256,7 @@ REPORT_SHELL = """<!DOCTYPE html>
   <div class="section"><h2>下一步（最小试跑）</h2>
     <div class="next"><h4>验证计划</h4><ol>{{NEXT}}</ol></div></div>
   <div class="section"><h2>来源与搜索记录</h2><div class="card src">
-    <ul>{{SOURCES}}</ul>{{UNSEARCHED}}{{LOOP_NOTES}}{{ASSUMPTIONS}}
+    <ul>{{SOURCES}}</ul>{{UNSEARCHED}}{{LOOP_NOTES}}{{HISTORY_REUSED}}{{RETRIEVAL_LOG}}{{ASSUMPTIONS}}
   </div></div>
   <div class="footer">由 检索世界 生成 · <a href="{{INDEX_LINK}}">返回检索历史</a></div>
 </div>
@@ -280,6 +280,8 @@ def render_report(report, history_dir, run_dir):
     for channel in report.get("channels") or []:
         chips.append(f'<span class="chip">{esc(channel)}</span>')
     chips.append(f'<span class="chip">候选 {len(candidates)} 个</span>')
+    if report.get("history_reused"):
+        chips.append(f'<span class="chip">历史回灌 {len(report["history_reused"])} 条</span>')
 
     mode = report.get("mode", "normal")
     mode_label = "深度扫描" if mode == "loop" else "普通模式"
@@ -291,6 +293,19 @@ def render_report(report, history_dir, run_dir):
     loop_notes = ""
     if report.get("loop_notes"):
         loop_notes = '<p class="note-line">循环记录：' + esc("；".join(report["loop_notes"])) + "</p>"
+    history_reused = ""
+    if report.get("history_reused"):
+        history_reused = '<p class="note-line">历史回灌：' + esc("；".join(report["history_reused"])) + "</p>"
+    retrieval_log = ""
+    if report.get("retrieval_log"):
+        log_lines = []
+        for item in report["retrieval_log"]:
+            variant = item.get("variant", "")
+            engines = ",".join(item.get("engines") or [])
+            hits = item.get("hits", "—")
+            useful = item.get("useful", "—")
+            log_lines.append(f"{variant}（{engines}，命中 {hits}，有用 {useful}）")
+        retrieval_log = '<p class="note-line">检索日志：' + esc("；".join(log_lines)) + "</p>"
     assumptions = ""
     if report.get("assumptions"):
         assumptions = f'<p class="note-line">假设：{esc("；".join(report["assumptions"]))}</p>'
@@ -307,6 +322,8 @@ def render_report(report, history_dir, run_dir):
         .replace("{{SOURCES}}", list_html(report.get("sources") or []))
         .replace("{{UNSEARCHED}}", unsearched)
         .replace("{{LOOP_NOTES}}", loop_notes)
+        .replace("{{HISTORY_REUSED}}", history_reused)
+        .replace("{{RETRIEVAL_LOG}}", retrieval_log)
         .replace("{{ASSUMPTIONS}}", assumptions)
         .replace("{{INDEX_LINK}}", esc(index_link))
     )

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Spec-driven skill generator for skill-forge-1-3.
+"""Spec-driven skill generator for skill-forge.
 
 Usage:
     python3 build_skill.py <spec.json> --out <output-dir>
@@ -83,7 +83,7 @@ def write_skill_md(root: Path, spec: dict, description: str) -> None:
         "",
         "## 工作流",
         "",
-        "1. （由 skill-forge-1-3 根据契约填充：输入处理 → 核心步骤 → 输出）",
+        "1. （由 skill-forge 根据契约填充：输入处理 → 核心步骤 → 输出）",
         "",
         "## 验收（来自契约）",
         "",
@@ -180,7 +180,7 @@ def main() -> int:
     write_regressions_seed(root)
     write_openai_yaml(root, spec)
     print(f"OK：已生成 {root}")
-    print("下一步：由 skill-forge-1-3 填充工作流与失败降级实现，然后运行 check_skill.py <skill-dir> <spec.json>。")
+    print("下一步：由 skill-forge 填充工作流与失败降级实现，然后运行 check_skill.py <skill-dir> <spec.json>。")
     return 0
 
 

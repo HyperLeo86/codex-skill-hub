@@ -13,6 +13,11 @@
   "mode": "normal | loop",
   "rounds": 1,
   "loop_notes": ["第 1 轮：...", "第 2 轮：..."],
+  "history_reused": ["历史报告 1 的结论（标注「历史库」）", "..."],
+  "retrieval_log": [
+    {"variant": "查询变体词", "engines": ["exa", "内置"], "hits": 8, "useful": 3},
+    {"variant": "...", "engines": ["tavily"], "hits": 5, "useful": 1}
+  ],
   "candidates": [
     {
       "name": "",
