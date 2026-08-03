@@ -6,7 +6,7 @@
 
 密钥来源（按优先级）：
   1. 环境变量 TAVILY_API_KEY
-  2. ~/.config/jian-suo-shi-jie/tavily.env
+  2. ~/.config/world-search/tavily.env（兼容旧路径 jian-suo-shi-jie）
 """
 import argparse
 import json
@@ -21,13 +21,18 @@ TAVILY_URL = "https://api.tavily.com/search"
 def load_key():
     key = os.environ.get("TAVILY_API_KEY")
     if not key:
-        env_file = Path.home() / ".config" / "jian-suo-shi-jie" / "tavily.env"
-        if env_file.exists():
-            for line in env_file.read_text(encoding="utf-8").splitlines():
-                if line.startswith("TAVILY_API_KEY="):
-                    key = line.split("=", 1)[1].strip()
+        for env_file in (
+            Path.home() / ".config" / "world-search" / "tavily.env",
+            Path.home() / ".config" / "jian-suo-shi-jie" / "tavily.env",
+        ):
+            if env_file.exists():
+                for line in env_file.read_text(encoding="utf-8").splitlines():
+                    if line.startswith("TAVILY_API_KEY="):
+                        key = line.split("=", 1)[1].strip()
+                if key:
+                    break
     if not key:
-        sys.exit("未找到 TAVILY_API_KEY（环境变量或 ~/.config/jian-suo-shi-jie/tavily.env）")
+        sys.exit("未找到 TAVILY_API_KEY（环境变量或 ~/.config/world-search/tavily.env）")
     return key
 
 

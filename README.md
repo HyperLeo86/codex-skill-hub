@@ -6,8 +6,8 @@
 
 | 技能 | 版本 | 说明 |
 | --- | --- | --- |
-| fan-shi-yue-qian | 1.0 | 范式跃迁：解题前换坐标系，寻找数量级提升的解法 |
-| jian-suo-shi-jie | 1.4 | 检索世界：先找世界上已有的现成方案，避免重复造轮子（统一版，原 Pro 能力已并入） |
+| paradigm-leap | 1.0 | 范式跃迁：解题前换坐标系，寻找数量级提升的解法 |
+| world-search | 1.4 | 检索世界：先找世界上已有的现成方案，避免重复造轮子（统一版，原 Pro 能力已并入） |
 | skill-forge | 1.3 | 打造技能：契约驱动 + 可测试 + 自进化（1-1 / 1-2 / 1-3 统一为最新版） |
 
 ## 版本管理规则
@@ -28,5 +28,5 @@ cp -R skill-forge ~/.codex/skills/
 
 ## 说明
 
-- 检索类脚本所需的 API key（Exa / Tavily）不随仓库分发，从环境变量或 `~/.config/jian-suo-shi-jie/*.env` 读取
+- 检索类脚本所需的 API key（Exa / Tavily）不随仓库分发，从环境变量或 `~/.config/world-search/*.env` 读取（兼容旧路径 `~/.config/jian-suo-shi-jie/`）
 - 当前为私有仓库；如后续要公开，需要先补充 LICENSE

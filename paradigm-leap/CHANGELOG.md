@@ -1,4 +1,4 @@
-# fan-shi-yue-qian changelog
+# paradigm-leap changelog
 
 ## 1.0（2026-08-03）
 

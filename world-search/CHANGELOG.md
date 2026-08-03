@@ -1,4 +1,4 @@
-# jian-suo-shi-jie changelog
+# world-search changelog
 
 ## 1.4（2026-08-03）
 

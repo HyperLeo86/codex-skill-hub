@@ -6,7 +6,7 @@
 
 密钥来源（按优先级）：
   1. 环境变量 EXA_API_KEY
-  2. ~/.config/jian-suo-shi-jie/exa.env
+  2. ~/.config/world-search/exa.env（兼容旧路径 jian-suo-shi-jie）
 """
 import argparse
 import json
@@ -19,18 +19,24 @@ EXA_SEARCH_URL = "https://api.exa.ai/search"
 
 def load_key():
     key = None
-    env_file = Path.home() / ".config" / "jian-suo-shi-jie" / "exa.env"
     try:
         import os
         key = os.environ.get("EXA_API_KEY")
     except Exception:
         key = None
-    if not key and env_file.exists():
-        for line in env_file.read_text(encoding="utf-8").splitlines():
-            if line.startswith("EXA_API_KEY="):
-                key = line.split("=", 1)[1].strip()
     if not key:
-        sys.exit("未找到 EXA_API_KEY（环境变量或 ~/.config/jian-suo-shi-jie/exa.env）")
+        for env_file in (
+            Path.home() / ".config" / "world-search" / "exa.env",
+            Path.home() / ".config" / "jian-suo-shi-jie" / "exa.env",
+        ):
+            if env_file.exists():
+                for line in env_file.read_text(encoding="utf-8").splitlines():
+                    if line.startswith("EXA_API_KEY="):
+                        key = line.split("=", 1)[1].strip()
+                if key:
+                    break
+    if not key:
+        sys.exit("未找到 EXA_API_KEY（环境变量或 ~/.config/world-search/exa.env）")
     return key
 
 
