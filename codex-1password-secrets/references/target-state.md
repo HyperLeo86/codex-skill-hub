@@ -30,7 +30,7 @@
 
 - **G1**：安装 1Password 8 并登录；验证 `ls /Applications/1Password.app/Contents/MacOS/onepassword-mcp`。
 - **G2**：`brew install 1password-cli`；桌面端 `Settings > Developer > Integrate with 1Password CLI`；验证 `op vault list` 弹授权。
-- **G3**：桌面端启用 SSH Agent；新建 `SSH Key` 条目（Ed25519）；公钥上传 GitHub/服务器；验证 `ssh -T git@github.com`。服务器清单缺失时输出待办，不猜测。
+- **G3**：桌面端启用 SSH Agent；在 1Password **桌面端**新建 `SSH Key` 条目（Ed25519，并在条目里填写关联网站如 `github.com`）；公钥上传 GitHub/服务器；验证 `ssh -T git@github.com`。服务器清单缺失时输出待办，不猜测。op CLI 无法写入 SSHKEY 字段，不可用 CLI 创建。
 - **G4**：桌面端 `Labs > MCP Server` 开启 + `Developer > Integrate with MCP clients`；Codex 配置：
   `[mcp_servers.1password] command = "/Applications/1Password.app/Contents/MacOS/onepassword-mcp"`；安装官方插件 `1Password/1password-codex-plugin`；自定义指令声明优先使用；验证 `codex mcp list`。
 - **G5**：`op plugin init` 选择 gh/codex；`source ~/.config/op/plugins.sh` 写入 `~/.zshrc`；字段对齐 `Token→GH_TOKEN`、`API Key→OPENAI_API_KEY`；验证 `op plugin run gh auth status`。
@@ -73,6 +73,7 @@ ignore_default_excludes = false
 ## 6. 已知限制
 
 - 稳定版 `op`（2.38.x）无 `op environment` 命令（beta CLI 才有）；Environments 操作以桌面端/MCP 为准。
+- 稳定版 `op` 无法创建/读取 SSH Key 类型条目（SSHKEY 字段不受支持）；SSH Key 一律桌面端创建，公钥由用户在条目中复制或手动上传。
 - 本地 `.env` 挂载（FIFO）不支持并发读取；Vite 等 watch 工具需忽略 `**/.env`；每设备最多 10 个挂载。
 - `op plugin run -- gh` 在非交互子进程可能报 interactive IO 错误（1Password/shell-plugins#575）。
 - MCP Server 为 beta：需 Labs 开关 + 账户的 Developer Environments 权限；仅 macOS/Linux。
