@@ -9,7 +9,7 @@
 | paradigm-leap | 1.0 | 范式跃迁：解题前换坐标系，寻找数量级提升的解法 |
 | world-search | 1.4 | 检索世界：先找世界上已有的现成方案，避免重复造轮子（统一版，原 Pro 能力已并入） |
 | skill-forge | 1.3 | 打造技能：契约驱动 + 可测试 + 自进化（1-1 / 1-2 / 1-3 统一为最新版） |
-| skill-publisher | 1.0 | 发布管理：按规范生成、校验、版本化并发布技能到 GitHub |
+| skill-publisher | 1.1 | 发布管理：按规范生成、自动校验（gh skill + skills-ref）、版本化并发布到 GitHub |
 
 ## 版本管理规则
 

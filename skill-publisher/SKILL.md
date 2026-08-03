@@ -5,7 +5,7 @@ description: 按「技能发布与版本管理规范」生成、校验 Codex 技
 
 # skill-publisher
 
-**版本**：1.0（2026-08-03）
+**版本**：1.1（2026-08-03）
 
 ## 概览
 
@@ -25,10 +25,10 @@ description: 按「技能发布与版本管理规范」生成、校验 Codex 技
 
 1. **输入处理**：确认是新技能还是更新已有技能；先读 `references/spec.md`（规范）与 `references/regressions.md`（账本），命中已知失败模式必须写防复发条款。
 2. **生成/更新**：新技能先写一页契约 `spec.json`（triggers ≥6、anti_triggers ≥1、acceptance ≥3、failure_modes ≥3、token_budget），再按契约生成 SKILL.md 骨架并填充程序性知识；已有技能直接定位目录做增量修改。
-3. **校验**：运行官方校验（`quick_validate.py` 或 `skills-ref validate`）与 `check_skill.py <dir> [spec.json]`，要求全绿：name=目录名、英文小写连写、frontmatter 合规、token 不超预算。
+3. **校验（自动门）**：先运行 `scripts/validate_skills.sh`——内置 `gh skill publish --fix`（GitHub 官方 agentskills 校验 + 安全检查）与 `skills-ref validate`（全库逐技能校验）双保险，全绿才允许继续；再运行 `check_skill.py <dir> [spec.json]` 做结构/token/账本检查，要求 name=目录名、英文小写连写、frontmatter 合规、token 不超预算。
 4. **保存**：仓库固定目录 `~/Documents/codex-skill-hub/<skill-name>/`（已存在则复用，不重复创建）；需要使用时再安装到 `~/.codex/skills/<skill-name>/`。
 5. **版本**：更新 SKILL.md 头部 `**版本**：X.Y（日期）`；在技能文件夹内 `CHANGELOG.md` 按升序追加当前版本与变更内容（旧版本只记录不建目录）。
-6. **发布**：git add + commit → 打 tag `<skill-name>@vX.Y` → `git push origin main` + `git push --tags`；可选执行 `gh skill publish --fix` 做官方规范与安全检查。
+6. **发布**：校验门全绿后执行 git add + commit → 打 tag `<skill-name>@vX.Y` → `git push origin main` + `git push --tags`。
 7. **幂等复查**：确认无重复目录、无重复 tag；tag 已存在时对比内容只做增量提交；输出发布结果（tag 名、提交号、仓库链接）。
 
 ## 验收（来自契约）
@@ -47,6 +47,7 @@ description: 按「技能发布与版本管理规范」生成、校验 Codex 技
 
 ## 资源
 
+- scripts/validate_skills.sh：发布前自动校验门（gh skill + skills-ref 双绿，全库扫描）
 - scripts/：确定性逻辑，直接运行
 - references/spec.md：技能发布与版本管理规范（与 Obsidian「我的skills」同源）
 - references/regressions.md：回归账本（升级前全量回归）

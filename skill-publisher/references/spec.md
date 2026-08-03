@@ -84,7 +84,7 @@ skill-name/
 ## 7. 发布规范（GitHub）
 
 1. 仓库：`codex-skill-hub`，私有，`main` 分支。
-2. 校验：`gh skill publish`（官方按 agentskills 规范校验 + 安全检查）或本地 `check_skill.py` 全绿后 `git push --tags`。
+2. 校验（自动门）：发布前必须运行 `skill-publisher/scripts/validate_skills.sh`——内置 `gh skill publish --fix`（官方 agentskills 规范 + 安全检查）与 `skills-ref validate`（全库逐技能）双校验，双绿后 `git push --tags`。
 3. 推荐开启：tag protection、secret scanning、code scanning；公开分享时开启 immutable releases。
 4. 敏感信息：API key 一律环境变量或 `~/.config/<skill-name>/*.env`，禁止入库。
 
@@ -98,6 +98,6 @@ skill-name/
 
 ## 9. 待办
 
-- 试跑 `gh skill publish --fix` 并接入发布流程
-- 用 `skills-ref validate` 做一次全库官方校验
-- 本地旧版本目录清理（skill-forge-1-1/1-2/1-3、jian-suo-shi-jie-pro）
+- ✅ 已完成：gh skill publish --fix + skills-ref validate 已内嵌为 skill-publisher 1.1 的自动校验门
+- 公开分享前为技能补 license 字段（当前私有仓库，仅推荐非必填）
+- 本地旧版本目录清理（skill-forge-1-1/1-2/1-3、jian-suo-shi-jie-pro；现已有备份，可随时删除）
