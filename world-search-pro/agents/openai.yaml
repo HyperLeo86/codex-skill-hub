@@ -1,0 +1,4 @@
+interface:
+  display_name: "world-search-pro"
+  short_description: "动手前的方案侦察 + 决策 + 归档完整流水线：多引擎检索、六层选型、业务价值与许可硬检查、谱系解释、Verdict 行"
+  default_prompt: "Use $world-search-pro to 动手前的方案侦察 + 决策 + 归档完整流水线：多引擎检索、六层选型、业务价值与许可硬检查、谱系解释、Verdict 行与置信度、报告归档."

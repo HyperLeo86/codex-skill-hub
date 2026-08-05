@@ -1,0 +1,36 @@
+{
+  "name": "world-search-pro",
+  "one_liner": "动手前的方案侦察 + 决策 + 归档完整流水线：多引擎检索、六层选型、业务价值与许可硬检查、谱系解释、Verdict 行与置信度、报告归档",
+  "date": "2026-08-05",
+  "triggers": [
+    "帮我找找有没有现成的方案",
+    "这个需求世界上已经有人做了吗",
+    "不要重复造轮子，先检索世界",
+    "选型：这几个方案该用哪个",
+    "build vs buy 帮我分析一下",
+    "我想做 X，先看看有没有现成的库/产品/API",
+    "这个技术方案以前试过吗"
+  ],
+  "anti_triggers": ["市场调研/创业立项/竞品分析", "创意头脑风暴", "纯 bug 修复或重构", "用户已完全指定方案的脚本任务"],
+  "input_output": {
+    "input": "需求描述（最终目标、方案类型、输入输出、使用场景、硬约束：成本/隐私/语言/环境/规模/许可）",
+    "output": "report.json + report.html：候选方案卡、六层搜索记录、业务价值与许可审计、谱系、Verdict 行、置信度/门/再评估触发器、检索日志、下一步",
+    "acceptance": [
+      "每次 pass 输出一行 Verdict：<直接用|改改用|只借鉴|淘汰|待验证> — <方案> — <证据>",
+      "每个推荐结论都能指回真实来源，且许可硬检查结果显式可读",
+      "report.json 包含 retrieval_log、lineage、confidence、re_evaluation_trigger 字段"
+    ]
+  },
+  "freedom": "medium",
+  "failure_modes": [
+    {"scenario": "多引擎全部不可用", "fallback": "降级为内置搜索 + 渠道矩阵，并在检索日志标注渠道缺失"},
+    {"scenario": "候选全部不满足硬约束", "fallback": "输出「大概率无现成方案」，给出自建理由与最小验证"},
+    {"scenario": "用户说「别查了直接做」", "fallback": "仍输出一行跳过式 Verdict 后继续，不执行完整流程"},
+    {"scenario": "最小试跑失败", "fallback": "降级结论为待验证，标注失败原因，不编造成功"}
+  ],
+  "token_budget": {
+    "skill_md_lines": 280,
+    "skill_md_tokens": 2400,
+    "references": ["channels.md", "domain.md", "output-spec.md", "lineage.md", "validation.md", "regressions.md"]
+  }
+}
