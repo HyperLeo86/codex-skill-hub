@@ -1,9 +1,9 @@
 # skill-forge changelog
 
-## 2.0（2026-08-07）
+## 1.5（2026-08-07）
 
-- 重命名：skill-forge → hyperleo-skill-forge（HyperLeo 命名规范，破坏性变更）
-- 版本 1.4 → 2.0
+- 重命名：skill-forge → hyperleo-skill-forge（HyperLeo 命名规范，非破坏性重命名）
+- 版本 1.4 → 1.5
 
 ## 1.4（2026-08-07）
 

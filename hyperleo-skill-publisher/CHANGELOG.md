@@ -1,9 +1,9 @@
 # skill-publisher changelog
 
-## 2.0（2026-08-07）
+## 1.4（2026-08-07）
 
-- 重命名：skill-publisher → hyperleo-skill-publisher（HyperLeo 命名规范，破坏性变更）
-- 版本 1.3 → 2.0
+- 重命名：skill-publisher → hyperleo-skill-publisher（HyperLeo 命名规范，非破坏性重命名）
+- 版本 1.3 → 1.4
 
 ## 1.0（2026-08-03）
 

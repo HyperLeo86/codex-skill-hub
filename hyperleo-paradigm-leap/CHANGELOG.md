@@ -1,9 +1,9 @@
 # paradigm-leap changelog
 
-## 2.0（2026-08-07）
+## 1.2（2026-08-07）
 
-- 重命名：paradigm-leap → hyperleo-paradigm-leap（HyperLeo 命名规范，破坏性变更）
-- 版本 1.1 → 2.0
+- 重命名：paradigm-leap → hyperleo-paradigm-leap（HyperLeo 命名规范，非破坏性重命名）
+- 版本 1.1 → 1.2
 
 ## 1.1（2026-08-07）
 

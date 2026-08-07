@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## 0.1.0（2026-08-07）
+## 0.2（2026-08-07）
 
 - 重命名：small-council → hyperleo-small-council（HyperLeo 命名规范）
 - 首个版本：基于「分权 + 证据 + 状态机 + 人工门」的 agent 交付治理框架。

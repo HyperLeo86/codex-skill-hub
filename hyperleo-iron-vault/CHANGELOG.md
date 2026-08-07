@@ -1,9 +1,9 @@
 # CHANGELOG
 
-## 2.0（2026-08-07）
+## 1.4（2026-08-07）
 
-- 重命名：codex-1password-secrets → hyperleo-iron-vault（HyperLeo 命名规范，主题设计保留，破坏性变更）
-- 版本 1.3 → 2.0
+- 重命名：codex-1password-secrets → hyperleo-iron-vault（HyperLeo 命名规范，主题设计保留，非破坏性重命名）
+- 版本 1.3 → 1.4
 
 ## 1.3（2026-08-07）HyperLeo 重命名
 
