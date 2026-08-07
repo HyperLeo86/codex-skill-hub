@@ -5,15 +5,22 @@
 #   1) gh skill publish --fix —— GitHub 官方 agentskills 规范校验 + 仓库安全检查
 #   2) skills-ref validate    —— agentskills 参考库逐技能校验（全库扫描）
 #
-# 用法：bash scripts/validate_skills.sh [仓库目录，默认脚本上一级]
+# 用法：bash scripts/validate_skills.sh [仓库目录，默认自动探测 git root]
 # 说明：--fix 可能修改元数据，若输出显示有改动，请先 review 再提交。
 set -euo pipefail
 
-REPO_DIR="${1:-$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)}"
-cd "$REPO_DIR"
-
 fail() { echo "❌ $*" >&2; exit 1; }
 pass() { echo "✅ $*"; }
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REPO_DIR="${1:-}"
+if [ -z "$REPO_DIR" ]; then
+  REPO_DIR="$(git -C "$SCRIPT_DIR" rev-parse --show-toplevel 2>/dev/null || true)"
+fi
+if [ -z "$REPO_DIR" ] || [ ! -d "$REPO_DIR/.git" ]; then
+  fail "未找到仓库根：请从 codex-skill-hub 仓库内运行（bash skill-publisher/scripts/validate_skills.sh），或显式传入仓库目录参数"
+fi
+cd "$REPO_DIR"
 
 # --- 1. gh skill（GitHub 官方校验） ---
 if ! gh skill --help >/dev/null 2>&1; then
