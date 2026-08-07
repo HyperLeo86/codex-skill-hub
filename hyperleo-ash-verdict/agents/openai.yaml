@@ -1,0 +1,4 @@
+interface:
+  display_name: "灰烬判决 · 失败复盘"
+  short_description: "任务失败后全流程复盘：意图→过程→根因→失败模式→防复发规则"
+  default_prompt: "Use $hyperleo-ash-verdict to 复盘失败任务并识别失败模式。"

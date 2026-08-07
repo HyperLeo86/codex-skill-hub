@@ -6,6 +6,7 @@
 
 | 技能 | 版本 | 说明 |
 | --- | --- | --- |
+| hyperleo-ash-verdict | 1.0 | 任务或过程失败后，重放意图与过程，只输出事实、1-2 条技术性错误/缺失、0-1 条人文性错误/概念，并写入错误日志 |
 | hyperleo-image-gen-router | 1.1 | 统一路由并调用用户已开通的生图 API（阿里通义万相 DashScope、火山方舟 ARK），按可用 Key 与任务类型自动选择模型，未来新增提供方只需扩展注册表 |
 | hyperleo-iron-vault | 1.4 | 审计并落地 Codex × 1Password 统一密钥管理；本地 ~/.codex/.env 只作纯 KEY=VALUE 显式缓存，按需 pull/push 同步 |
 | hyperleo-paradigm-leap | 1.2 | 在解题之前先换坐标系：压缩问题、测量基线、扫描世界、抽象机制、跨域迁移、最小验证、固化进化，寻找数量级提升的解法（降维打击） |
