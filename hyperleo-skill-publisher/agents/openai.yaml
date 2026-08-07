@@ -1,0 +1,4 @@
+interface:
+  display_name: "Skill Publisher"
+  short_description: "按「技能发布与版本管理规范」生成、校验 Codex 技能，维护版本与 CHANGELOG，并发布到 GitHub"
+  default_prompt: "Use $hyperleo-skill-publisher to generate, validate, version, and publish Codex skills to GitHub per the publishing spec."

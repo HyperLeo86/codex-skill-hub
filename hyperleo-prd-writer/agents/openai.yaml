@@ -1,0 +1,4 @@
+interface:
+  display_name: "PRD Writer"
+  short_description: "示例驱动的可执行 PRD 撰写与审核技能（访谈→DoR 闸门→RFI 闭环）"
+  default_prompt: "Use $hyperleo-prd-writer to turn a vague requirement into an executable PRD."

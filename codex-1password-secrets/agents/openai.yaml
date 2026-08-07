@@ -1,4 +1,0 @@
-interface:
-  display_name: "Codex 1Password Secrets"
-  short_description: "审计并落地 Codex × 1Password 统一密钥管理，按需 pull/push 同步 ~/.codex/.env"
-  default_prompt: "Use codex-1password-secrets to audit the machine, land the unified 1Password secrets workflow, and sync ~/.codex/.env via pull/push."

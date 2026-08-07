@@ -1,0 +1,4 @@
+interface:
+  display_name: "Image Gen Router"
+  short_description: "统一路由你的生图 API（通义万相 / 火山方舟），自动选模型出图。"
+  default_prompt: "用 $hyperleo-image-gen-router 帮我生成一张「书架上的橘猫，扁平卡通风」。"

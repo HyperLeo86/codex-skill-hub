@@ -1,0 +1,4 @@
+interface:
+  display_name: "御前会议"
+  short_description: "多 agent 交付治理：分权、证据、状态机、人工门"
+  default_prompt: "Use $hyperleo-small-council to govern a multi-agent delivery run."

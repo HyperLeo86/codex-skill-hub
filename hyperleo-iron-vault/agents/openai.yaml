@@ -1,0 +1,4 @@
+interface:
+  display_name: "铁金库（Iron Vault）"
+  short_description: "审计并落地 Codex × 1Password 统一密钥管理，按需 pull/push 同步 ~/.codex/.env"
+  default_prompt: "Use $hyperleo-iron-vault to audit the machine, land the unified 1Password secrets workflow, and sync ~/.codex/.env via pull/push."
