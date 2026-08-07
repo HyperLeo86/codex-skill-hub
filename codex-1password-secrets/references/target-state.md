@@ -2,7 +2,7 @@
 
 ## 1. 目标状态（TO-BE）
 
-所有凭据（网站密码、GitHub、API Key、SSH 私钥）统一存于 1Password；Codex 通过本地 MCP Server、`op` CLI、Shell Plugins、SSH Agent 按需获取；密钥值不进入模型上下文，明文不落盘；每次访问有桌面端授权。1Password 为唯一真相，`~/.codex/.env` 只作纯 KEY=VALUE 显式缓存（无注释），由 `~/.zshrc` source，按需 `scripts/sync.sh pull|push` 同步。
+所有凭据（网站密码、GitHub、API Key、SSH 私钥）统一存于 1Password；Codex 通过本地 MCP Server、`op` CLI、Shell Plugins、SSH Agent 按需获取；密钥值不进入模型上下文，明文不落盘；每次访问有桌面端授权。1Password 为唯一真相（默认 vault `Private`，`OP_CODEX_VAULT` 可覆盖），`~/.codex/.env` 只作纯 KEY=VALUE 显式缓存（无注释），由 `~/.zshrc` source，按需 `scripts/sync.sh pull|push` 同步。
 
 | 组件 | 目标状态 |
 | --- | --- |
@@ -38,7 +38,7 @@
 - **G6**：桌面端 `Developer > Environments` 新建 Environment（命名 `<项目>-<环境>`）；导入 `.env`/加变量；`Destinations > Local .env file` 挂载；仓库保留 `.env.tpl`；验证应用可读到变量。
 - **G7**：向 `~/.codex/config.toml` 写入 §4 配置块（先备份，禁止覆盖既有键）；重启 Codex；验证 `rg shell_environment_policy ~/.codex/config.toml`。
 - **G8**：旋转曾明文/入库的密钥；`git rm --cached .env`；补 `.gitignore`（`.env`、`.env.*`、`!.env.tpl`、`*.local`、`.codex/`、`.claude/`）；删除 shell 配置中的明文 `export`；验证搜索无命中。
-- **G9**：建立本地显式缓存与按需同步——创建 `~/.codex/.env`（权限 600，只含 KEY=VALUE）；`~/.zshrc` 加入 `set -a; [ -f "$HOME/.codex/.env" ] && . "$HOME/.codex/.env"; set +a`；config.toml 的 provider 一律 `env_key`（禁 `experimental_bearer_token`、禁 URL 内嵌 key）；1Password 侧条目 `Personal/Codex API` 字段名 = 变量名；`scripts/sync.sh pull|push` 验证通过。
+- **G9**：建立本地显式缓存与按需同步——创建 `~/.codex/.env`（权限 600，只含 KEY=VALUE）；`~/.zshrc` 加入 `set -a; [ -f "$HOME/.codex/.env" ] && . "$HOME/.codex/.env"; set +a`；config.toml 的 provider 一律 `env_key`（禁 `experimental_bearer_token`、禁 URL 内嵌 key）；1Password 侧条目 `Private/Codex API` 字段名 = 变量名（vault 名可 `OP_CODEX_VAULT` 覆盖）；`scripts/sync.sh pull|push` 验证通过。
 
 ## 4. 目标配置块（~/.codex/config.toml）
 
@@ -77,7 +77,7 @@ ignore_default_excludes = false
 
 ## 6. 本地显式缓存与按需同步（v1.2）
 
-目标模型：1Password 是唯一真相（默认 item `Personal/Codex API`，字段名 = 环境变量名）；`~/.codex/.env` 是本地显式缓存，只含 KEY=VALUE，权限 600，由 `~/.zshrc` source；Codex 的 provider 通过 `env_key` 读取；平时不调用 `op`，只在需要时同步。
+目标模型：1Password 是唯一真相（默认 vault `Private`、item `Codex API`，字段名 = 环境变量名；`OP_CODEX_VAULT`/`OP_CODEX_ITEM` 可覆盖）；`~/.codex/.env` 是本地显式缓存，只含 KEY=VALUE，权限 600，由 `~/.zshrc` source；Codex 的 provider 通过 `env_key` 读取；平时不调用 `op`，只在需要时同步。
 
 命令：
 
@@ -88,7 +88,7 @@ scripts/sync.sh push   # ~/.codex/.env -> 1Password（上传；条目不存在�
 
 首次使用：解锁 1Password 桌面端 → `op signin --account my.1password.com` → `scripts/sync.sh push`。
 
-覆盖默认值：`OP_CODEX_VAULT`（默认 `Personal`）、`OP_CODEX_ITEM`（默认 `Codex API`）、`CODEX_ENV_FILE`（默认 `~/.codex/.env`）。
+覆盖默认值：`OP_CODEX_VAULT`（默认 `Private`）、`OP_CODEX_ITEM`（默认 `Codex API`）、`CODEX_ENV_FILE`（默认 `~/.codex/.env`）。
 
 `.env` 纪律：只写 KEY=VALUE；说明、规则、触发词全部在技能文档（SKILL.md / target-state.md），禁止把注释写进 `.env`。
 

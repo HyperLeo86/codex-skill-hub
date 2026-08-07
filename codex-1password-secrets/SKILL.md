@@ -5,11 +5,11 @@ description: 审计并落地 Codex × 1Password 统一密钥管理；本地 ~/.c
 
 # codex-1password-secrets
 
-**版本**：1.2（2026-08-07）
+**版本**：1.3（2026-08-07）
 
 ## 概览
 
-1Password 是 API 密钥唯一真相；`~/.codex/.env` 是纯 KEY=VALUE 显式缓存（权限 600，由 `~/.zshrc` source）；`scripts/sync.sh` 负责 pull（下载）与 push（上传）。
+1Password 是 API 密钥唯一真相（默认 vault `Private`，可 `OP_CODEX_VAULT` 覆盖）；`~/.codex/.env` 是纯 KEY=VALUE 显式缓存（权限 600，由 `~/.zshrc` source）；`scripts/sync.sh` 负责 pull（下载）与 push（上传）。
 
 ## 触发与反触发
 
@@ -33,12 +33,12 @@ description: 审计并落地 Codex × 1Password 统一密钥管理；本地 ~/.c
 
 - `~/.codex/.env` 只含 KEY=VALUE，无注释与说明
 - pull/push 全程不把密钥值写入对话、argv 或日志
-- 1Password 未登录时脚本快速报错并给出 `op signin --account my.1password.com` 指引，不挂起
+- 1Password 不可访问时脚本快速报错并给出 `op signin --account my.1password.com` 指引，不挂起
 - 验收表每一项 PASS/FAIL 均可核对
 
 ## 失败降级
 
-- op 未登录/桌面端未解锁 → 先 `op whoami` 快速失败并提示 signin
+- op 未登录/桌面端未解锁 → 用 `op vault list` 探活（`op whoami` 在系统认证下会误报），失败则提示 signin
 - vault/item 不存在 → push 自动创建 Secure Note；vault 缺失提示 `OP_CODEX_VAULT`
 - `.env` 含注释 → pull 重写为纯 KEY=VALUE；push 跳过注释
 - 密钥含特殊字符 → 临时文件 + jq 传递，不进 argv/echo
