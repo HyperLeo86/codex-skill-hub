@@ -1,52 +1,55 @@
 ---
 name: codex-1password-secrets
-description: 审计任意电脑的 Codex 密钥管理现状，并逐步落地为 1Password 统一管理（安装包式流程：审计 → 差距 → 补齐 → 验收）。当用户说 「把 Codex 和 1Password 接起来」；「帮我配置 1Password 统一管理密钥」；「审计这台电脑的密钥管理现状」；「把环境变量和 API Key 迁到 1Password」；「部署 Codex 的 1Password MCP」；「加固 Codex 的环境变量策略」；「按安装包规范落地密钥管理」 时使用；不用于：在对话中粘贴或回显具体密钥值、管理 1Password 之外的密码库。
+description: 审计并落地 Codex × 1Password 统一密钥管理；本地 ~/.codex/.env 只作纯 KEY=VALUE 显式缓存，按需 pull/push 同步。当用户说「把 Codex 和 1Password 接起来」「帮我配置 1Password 统一管理密钥」「审计这台电脑的密钥管理现状」「把环境变量和 API Key 迁到 1Password」「把 1Password 里的密钥同步到本地 .env」「把 .env 里新加的 API 上传到 1Password」时使用；不用于：在对话中回显具体密钥值。
 ---
 
 # codex-1password-secrets
 
-**版本**：1.1（2026-08-03）
+**版本**：1.2（2026-08-07）
 
 ## 概览
 
-审计任意电脑的 Codex 密钥管理现状，并逐步落地为 1Password 统一管理（安装包式流程：审计 → 差距 → 补齐 → 验收）
+1Password 是 API 密钥唯一真相；`~/.codex/.env` 是纯 KEY=VALUE 显式缓存（权限 600，由 `~/.zshrc` source）；`scripts/sync.sh` 负责 pull（下载）与 push（上传）。
 
 ## 触发与反触发
 
-- 触发：把 Codex 和 1Password 接起来；帮我配置 1Password 统一管理密钥；审计这台电脑的密钥管理现状；把环境变量和 API Key 迁到 1Password；部署 Codex 的 1Password MCP；加固 Codex 的环境变量策略；按安装包规范落地密钥管理
-- 反触发：在对话中粘贴或回显具体密钥值；管理 1Password 之外的密码库
+- 触发：把 Codex 和 1Password 接起来；帮我配置 1Password 统一管理密钥；审计这台电脑的密钥管理现状；把环境变量和 API Key 迁到 1Password；把 1Password 里的密钥同步到本地 .env；把 .env 里新加的 API 上传到 1Password；Codex 的密钥存在 1Password 里怎么同步；把 .env 里的说明挪到技能里
+- 反触发：在对话中回显具体密钥值；管理 1Password 之外的密码库
 
 ## 决定权（自由度 low）
 
-- 以脚本/步骤为准，顺序、参数、输出格式禁止即兴偏离
-- 脚本输出是唯一事实源，禁止覆盖或重算
+- 以 `scripts/audit.sh` 与 `scripts/sync.sh` 为准，顺序、参数、输出格式禁止即兴偏离
+- 脚本输出是唯一事实源；密钥值禁止出现在对话、argv、命令历史或日志
 
 ## 工作流
 
-1. **审计（只读）**：运行 `scripts/audit.sh`，记录 A1（1Password 桌面端）、A2（op CLI）、A3（SSH）、A4（gh）、A5（Codex）、A6（明文残留）六段输出。
-2. **差距**：把审计输出对照 `references/target-state.md` 的「差距映射表」，产出 G1–G8 差距清单；未命中差距的项标 PASS。改动前先备份（`cp ~/.codex/config.toml ~/.codex/config.toml.bak-<日期>`）。
-3. **补齐**：按 `references/target-state.md` 的「动作表」只执行差距对应项，已达标项跳过；每个涉及 1Password 的步骤等待桌面端授权，超时则停止并提示，不绕过。
-4. **验收**：运行 `references/target-state.md` 的「验收清单」，逐项输出 PASS/FAIL；FAIL 项给出原因与回到的 G 编号。
-5. **报告**：输出现状摘要、差距清单、已执行动作与验收表；全程只写变量名与编号，不回显任何密钥值。
+1. **审计（只读）**：运行 `scripts/audit.sh`，记录 A1–A6。
+2. **差距**：对照 `references/target-state.md` 映射表产出 G1–G9 清单；改动前备份 `~/.codex/config.toml`。
+3. **补齐**：只执行差距对应动作；涉及 1Password 的步骤等桌面端授权，不绕过。
+4. **同步**：`scripts/sync.sh pull`（1Password → `.env`，只写 KEY=VALUE）；`scripts/sync.sh push`（`.env` → 1Password，条目缺失自动创建 Secure Note；`OP_CODEX_VAULT`/`OP_CODEX_ITEM` 可覆盖）。
+5. **验收与报告**：按验收清单逐项 PASS/FAIL；输出摘要、差距、动作与验收表；不回显密钥。
 
 ## 验收（来自契约）
 
-- 审计步骤只读，不修改任何配置或凭据
-- 差距清单每一项都可映射到 G1-G8 动作编号
-- 执行过程不把密钥值写入对话、文件或日志
-- 验收后明确列出 PASS/FAIL，FAIL 项给出原因与下一步
+- `~/.codex/.env` 只含 KEY=VALUE，无注释与说明
+- pull/push 全程不把密钥值写入对话、argv 或日志
+- 1Password 未登录时脚本快速报错并给出 `op signin --account my.1password.com` 指引，不挂起
+- 验收表每一项 PASS/FAIL 均可核对
 
 ## 失败降级
 
-- op CLI 未安装或 Homebrew 失败 → 提示手动安装命令，继续执行不依赖 op 的步骤（审计、config 加固）
-- 1Password 桌面端授权超时或未解锁 → 停止该步骤并提示用户在桌面端批准，不绕过授权
-- config.toml 已存在且有用户改动 → 先备份再合并，禁止覆盖既有配置
-- SSH 测试无身份或服务器清单缺失 → 输出待办清单，不猜测服务器地址或创建密钥
+- op 未登录/桌面端未解锁 → 先 `op whoami` 快速失败并提示 signin
+- vault/item 不存在 → push 自动创建 Secure Note；vault 缺失提示 `OP_CODEX_VAULT`
+- `.env` 含注释 → pull 重写为纯 KEY=VALUE；push 跳过注释
+- 密钥含特殊字符 → 临时文件 + jq 传递，不进 argv/echo
+- 条目已有其他字段 → item template 合并，只增改目标字段
+- 桌面授权等待 → 停止并提示用户在桌面端批准
 
 ## 资源
 
-- `scripts/audit.sh`：只读审计脚本（唯一事实源，先运行）
-- `references/target-state.md`：目标状态、差距映射、G1-G8 动作、验收清单（按需加载）
-- `references/regressions.md`：回归账本（每次真实使用后回灌）
+- `scripts/audit.sh`：只读审计脚本
+- `scripts/sync.sh`：pull/push 唯一实现
+- `references/target-state.md`：目标状态、差距映射、G1–G9、验收清单
+- `references/regressions.md`：回归账本
 
-## Token 预算（契约：180 行 / 2000 token）
+## Token 预算（220 行 / 2000 token）

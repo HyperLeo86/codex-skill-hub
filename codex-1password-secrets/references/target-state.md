@@ -2,7 +2,7 @@
 
 ## 1. 目标状态（TO-BE）
 
-所有凭据（网站密码、GitHub、API Key、SSH 私钥）统一存于 1Password；Codex 通过本地 MCP Server、`op` CLI、Shell Plugins、SSH Agent 按需获取；密钥值不进入模型上下文，明文不落盘；每次访问有桌面端授权。
+所有凭据（网站密码、GitHub、API Key、SSH 私钥）统一存于 1Password；Codex 通过本地 MCP Server、`op` CLI、Shell Plugins、SSH Agent 按需获取；密钥值不进入模型上下文，明文不落盘；每次访问有桌面端授权。1Password 为唯一真相，`~/.codex/.env` 只作纯 KEY=VALUE 显式缓存（无注释），由 `~/.zshrc` source，按需 `scripts/sync.sh pull|push` 同步。
 
 | 组件 | 目标状态 |
 | --- | --- |
@@ -11,7 +11,7 @@
 | SSH Agent | `~/.ssh/config` 的 `IdentityAgent` 指向 1Password；SSH Key 均为 1Password 条目 |
 | Codex MCP | 桌面端 Labs MCP Server 开启；Codex 配置 `onepassword-mcp`；官方插件/技能已装 |
 | CLI 认证 | `gh` 通过 Shell Plugin 或 `op run` 注入，无明文 Token 文件 |
-| 环境变量 | 项目 `.env` 由 Environments 本地挂载；`.env.tpl` 只含 `op://` 引用；`.env` 不入库 |
+| 环境变量 | 项目 `.env` 由 Environments 本地挂载；`.env.tpl` 只含 `op://` 引用；`.env` 不入库；`~/.codex/.env` 只含 KEY=VALUE 无注释，说明与规则在技能文档 |
 | Codex 加固 | `~/.codex/config.toml` 含 `[shell_environment_policy]`（见 §4） |
 
 ## 2. 差距映射表
@@ -25,6 +25,7 @@
 | A5 `codex mcp list` 无 `1password` | G4 |
 | A5 无 `shell_environment_policy` | G7 |
 | A6 `.env` 存在且非挂载 / 检出明文密钥 | G6 / G8 |
+| A6 `~/.codex/.env` 含注释/说明，或不存在 | G9 |
 
 ## 3. 动作表（G1-G8）
 
@@ -37,6 +38,7 @@
 - **G6**：桌面端 `Developer > Environments` 新建 Environment（命名 `<项目>-<环境>`）；导入 `.env`/加变量；`Destinations > Local .env file` 挂载；仓库保留 `.env.tpl`；验证应用可读到变量。
 - **G7**：向 `~/.codex/config.toml` 写入 §4 配置块（先备份，禁止覆盖既有键）；重启 Codex；验证 `rg shell_environment_policy ~/.codex/config.toml`。
 - **G8**：旋转曾明文/入库的密钥；`git rm --cached .env`；补 `.gitignore`（`.env`、`.env.*`、`!.env.tpl`、`*.local`、`.codex/`、`.claude/`）；删除 shell 配置中的明文 `export`；验证搜索无命中。
+- **G9**：建立本地显式缓存与按需同步——创建 `~/.codex/.env`（权限 600，只含 KEY=VALUE）；`~/.zshrc` 加入 `set -a; [ -f "$HOME/.codex/.env" ] && . "$HOME/.codex/.env"; set +a`；config.toml 的 provider 一律 `env_key`（禁 `experimental_bearer_token`、禁 URL 内嵌 key）；1Password 侧条目 `Personal/Codex API` 字段名 = 变量名；`scripts/sync.sh pull|push` 验证通过。
 
 ## 4. 目标配置块（~/.codex/config.toml）
 
@@ -69,8 +71,28 @@ ignore_default_excludes = false
 | 8 | `rg shell_environment_policy ~/.codex/config.toml` | 有命中 |
 | 9 | shell/config 明文搜索 | 无命中 |
 | 10 | `git ls-files` | 无 `.env` |
+| 11 | `~/.codex/.env` 内容 | 只含 KEY=VALUE，无注释/说明 |
+| 12 | `op` 未登录时 `scripts/sync.sh pull` | 快速报错并提示 signin，不挂起 |
+| 13 | pull/push 输出 | 无密钥值出现在 stdout/argv/日志 |
 
-## 6. 已知限制
+## 6. 本地显式缓存与按需同步（v1.2）
+
+目标模型：1Password 是唯一真相（默认 item `Personal/Codex API`，字段名 = 环境变量名）；`~/.codex/.env` 是本地显式缓存，只含 KEY=VALUE，权限 600，由 `~/.zshrc` source；Codex 的 provider 通过 `env_key` 读取；平时不调用 `op`，只在需要时同步。
+
+命令：
+
+```bash
+scripts/sync.sh pull   # 1Password -> ~/.codex/.env（下载）
+scripts/sync.sh push   # ~/.codex/.env -> 1Password（上传；条目不存在时自动创建 Secure Note）
+```
+
+首次使用：解锁 1Password 桌面端 → `op signin --account my.1password.com` → `scripts/sync.sh push`。
+
+覆盖默认值：`OP_CODEX_VAULT`（默认 `Personal`）、`OP_CODEX_ITEM`（默认 `Codex API`）、`CODEX_ENV_FILE`（默认 `~/.codex/.env`）。
+
+`.env` 纪律：只写 KEY=VALUE；说明、规则、触发词全部在技能文档（SKILL.md / target-state.md），禁止把注释写进 `.env`。
+
+## 7. 已知限制
 
 - 稳定版 `op`（2.38.x）无 `op environment` 命令（beta CLI 才有）；Environments 操作以桌面端/MCP 为准。
 - 稳定版 `op` 无法创建/读取 SSH Key 类型条目（SSHKEY 字段不受支持）；SSH Key 一律桌面端创建，公钥由用户在条目中复制或手动上传。
