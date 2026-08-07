@@ -1,0 +1,4 @@
+interface:
+  display_name: "hyperleo-skill-lens"
+  short_description: "把任意 Agent Skill 变成一张可收藏的说明海报（PNG）：一句话定位 + 比喻逻辑 + 好处场景 + 模块可替换性"
+  default_prompt: "Use $hyperleo-skill-lens to 把任意 Agent Skill（GitHub 链接 / 本地 SKILL.md / 仅名称）变成一张可收藏的说明图片（PNG 海报）：一句话定位 + 比喻逻辑 + 好处场景 + 模块可替换性，禁止输出结构图/流程图."

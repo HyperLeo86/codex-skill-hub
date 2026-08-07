@@ -12,6 +12,7 @@
 | hyperleo-prd-writer | 1.1 | 示例驱动的可执行 PRD（产品需求文档）撰写与审核技能：三视角访谈 → 概念版对齐 → 落地版（每条规则配例子、AC 产出 GWT）→ DoR 100 分闸门 → 纵横审核 → 交… |
 | hyperleo-skill-analyst | 1.2 | 对现有 Skill 做四维体检（逻辑/可用性/可修改性/可进化），输出带证据的问题清单与精准优化方案，也可输出「身份卡」概览 |
 | hyperleo-skill-forge | 1.5 | 用「契约驱动 + 可测试 + 自进化」创建或升级 Agent 技能（Skill），统一版 v1.5：契约校验化、HyperLeo 命名规范、账本种子与发布门 |
+| hyperleo-skill-lens | 0.2 | 把任意 Agent Skill（GitHub 链接 / 本地 SKILL.md / 仅名称）变成一张可收藏的「说明图片」（PNG 海报）：一句话定位 + 比喻逻辑 + 好处场景 +… |
 | hyperleo-skill-publisher | 1.4 | 按「技能发布与版本管理规范」生成、校验 Codex 技能，维护版本与 CHANGELOG，并发布到 GitHub |
 | hyperleo-small-council | 0.2 | 把高风险、多步骤、多 agent 的交付任务变成「分权 + 证据 + 状态机 + 人工门」的治理系统：实现、审查、发布、记账角色分离，流程可恢复，失败可沉淀 |
 | hyperleo-world-search-pro | 1.2 | 动手前的方案侦察 + 决策 + 归档完整流水线：多引擎检索、六层选型、业务价值与许可硬检查、谱系解释、Verdict 行与置信度、报告归档 |
