@@ -6,7 +6,7 @@ description: >-
 
 # 范式跃迁
 
-**版本**：1.0（2026-08-03）
+**版本**：1.1（2026-08-07）
 
 ## 定位
 
@@ -66,3 +66,6 @@ description: >-
 3. 反例纪律：每个候选必须给出「什么条件下会失效」。
 4. 不贪全：触发条件不满足就走轻量版。
 5. 机制优先：评价以「取消了什么旧工作、改变了什么成本关系」为核心，不以技术新颖性为核心。
+6. 回归纪律：每次真实使用后把失败记入 `references/regressions.md`；升级前全量回归，存在「未修复」不得升级。
+
+详细工具清单见 [references/tools.md](references/tools.md)；十操作子判别表见 [references/operators.md](references/operators.md)；回归账本见 [references/regressions.md](references/regressions.md)。

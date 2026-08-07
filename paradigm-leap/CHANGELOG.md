@@ -1,5 +1,12 @@
 # paradigm-leap changelog
 
+## 1.1（2026-08-07）
+
+- 新建 references/regressions.md 回归账本（此前缺失，check_skill 报错）
+- 新增 AI 执行纪律第 6 条「回归纪律」：真实使用后记失败、升级前全量回归
+- SKILL.md 资源区补回归账本链接
+- 来源：skill-analyst 1.0.1 批量体检（B 级 → A 级）
+
 ## 1.0（2026-08-03）
 
 - 首次纳入版本管理（此前无版本标记）

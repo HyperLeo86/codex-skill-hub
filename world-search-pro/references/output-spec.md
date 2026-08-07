@@ -10,7 +10,7 @@
   "duration_minutes": 0,
   "constraints": "一句话硬约束",
   "channels": ["exa", "tavily", "内置", "pypi", "github", "实证试跑"],
-  "mode": "quick | normal | loop",
+  "mode": "quick | full | loop",
   "rounds": 1,
   "history_reused": ["历史库证据"],
   "retrieval_log": [{"variant": "查询词", "engines": ["exa"], "hits": 8, "useful": 3}],

@@ -6,7 +6,7 @@ description: 动手前的方案侦察 + 决策 + 归档完整流水线：多引�
 
 # world-search-pro
 
-**版本**：1.0（2026-08-05）
+**版本**：1.1（2026-08-07）
 
 ## 概览
 
@@ -25,34 +25,38 @@ description: 动手前的方案侦察 + 决策 + 归档完整流水线：多引�
 
 ## 运行模式
 
-- Quick：单点明确需求，≤15 分钟，只输出 Verdict 行 + 3 个候选
+- Quick：单点明确需求，≤15 分钟，只输出 Verdict 行 + 3 个候选（走步骤 0→1→3→4→7，跳过 2/5/6/8/9/10/11）
 - Full（默认）：完整流水线，≤2 小时，产出 report.json + report.html
-- Loop：深扫/对标，2–3 轮；一轮新增有用候选 <2 提前停止，≤3 小时
+- Loop：深扫/对标，2–3 轮；一轮新增有用候选 <2 提前停止，≤3 小时。「对标」指对具体方案/技术的深度扫描与替代对比；不用于竞品全景分析（那是市场调研）
 
 ## 工作流（Full 模式 12 步）
+
+跨切面规则（不占步骤号）：上下文保护——Full 模式原始检索输出进子代理/临时文件，主上下文只留摘要；生效于步骤 3–9，不是归档后的顺序步骤。
 
 0. **Preflight + articulate**：检查渠道可用性（缺失必须记录）；先输出用户可见三行：What / Language+Framework / Constraints
 1. **需求翻译 + 术语地图**：确认方案类型与硬约束；每核心概念生成 3–5 个变体查询（中英/口语/学术/反搜）
 2. **历史库回灌**：浏览历史 index.html 与 */report.json，同主题证据标注「历史库」直接进候选
 3. **三引擎扫描**：Exa（scripts/exa_search.py）主引擎 + Tavily（scripts/tavily_search.py）交叉验证 + 内置/渠道矩阵（references/channels.md）；结果按 URL 去重合并
-4. **六层选型**：REUSE → USE → FORK → BUY → INTEGRATE → BUILD，逐层记录引用（channels.md）
+4. **六层选型**：REUSE → USE → FORK → BUY → INTEGRATE → BUILD，逐层记录引用（channels.md）；BUILD 落到「大概率无现成方案 + 自建理由」，不占五结论
 5. **评估**：六维（功能/维护/社区/文档/许可/依赖）+ 业务价值五维（可靠/战略/可适/TCO/速度）+ 反偏见（≥3 独立来源）+ 许可/CVE 硬检查
 6. **谱系解释**：按 references/lineage.md 补「为什么是它/以前试过什么」
 7. **决策**：五结论 + Verdict 行 + 置信度（HIGH/MEDIUM/LOW）+ 门类型（one-way/two-way）+ 再评估触发器
 8. **最小试跑**：首选 5 分钟文档 → 15 分钟真实运行 → 10 分钟查评价；失败则降级「待验证」
 9. **输出归档**：report.json + report.html（output-spec.md / build_report_pro.py）
-10. **上下文保护**：Full 模式原始检索输出进子代理/临时文件，主上下文只留摘要
+10. **（跨切面）上下文保护**：Full 模式原始检索输出进子代理/临时文件，主上下文只留摘要；生效于步骤 3–9，非顺序步骤
 11. **账本回灌**：失败写 references/regressions.md；命中旧失败必须有防复发条款
 
 ## 决策模型
 
 | 五结论 | 六层映射 | 动作 |
 |---|---|---|
-| 直接用 | REUSE / USE | 安装即用 |
+| 直接用 | REUSE / USE / BUY / INTEGRATE | 安装即用 |
 | 改改用 | FORK / EXTEND / COMPOSE | 包装/分叉/组合 |
-| 只借鉴 | reference | 只取思路 |
-| 淘汰 | — | 硬约束不满足 |
+| 只借鉴 | reference（思路复用） | 只取思路 |
+| 淘汰 | 硬约束不满足 | 不进候选 |
 | 待验证 | 信息不足 | 试跑或人工确认 |
+
+BUILD = 自建（结论标注「自建合理」）。
 
 **Verdict 行**（每次 pass 必出）：
 

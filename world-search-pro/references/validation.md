@@ -21,7 +21,7 @@
 
 ## 发布门（三绿）
 
-1. `check_skill.py <skill-dir> <spec.json>` 全绿
+1. `python3 ~/.codex/skills/skill-forge/scripts/check_skill.py <skill-dir> [spec.json]` 全绿（引用 skill-forge 的检查器，本技能不内置）
 2. 回归账本全绿
 3. A/B 达标，或至少 RED→GREEN 通过
 
