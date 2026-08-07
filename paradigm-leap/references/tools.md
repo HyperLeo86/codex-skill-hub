@@ -8,7 +8,7 @@
 | 1 问题压缩 | triz-engineering-solver | https://github.com/Antropocosmist/triz-engineering-solver | 39×39 矩阵 + 40 原理 + Su-Field + ARIZ-85C |
 | 2/8 基线验证 | promptfoo | https://www.promptfoo.dev/docs/guides/ | LLM/Agent 评测、回归、LLM-as-judge |
 | 2/8 基线验证 | DeepEval / Inspect AI | https://futureagi.com/blog/best-open-source-eval-frameworks-2026/ | Agent 评估框架 |
-| 3 全域扫描 | 检索世界（world-search） | /Users/leo/.codex/skills/world-search | Exa + Tavily + 渠道矩阵 + 深度扫描 |
+| 3 全域扫描 | 检索世界 Pro（world-search-pro） | /Users/leo/.codex/skills/world-search-pro | Exa + Tavily + 渠道矩阵 + 深度扫描 |
 | 4 解法建图 | Heptabase / Obsidian / Causal Map | https://garden.causalmap.app/ | 候选矩阵与因果可视化 |
 | 5 机制抽象 | Heinrich - The Inventing Machine | https://github.com/NickScherbakov/Heinrich-The-Inventing-Machine | 开源 TRIZ AI 引擎（矛盾矩阵 + LLM 推理流） |
 | 5 机制抽象 | TRIZ-Agents | https://arxiv.org/abs/2506.18783 | 多智能体 TRIZ（ICAART 2025） |
