@@ -20,7 +20,7 @@
 | 正例 | 反例 |
 | --- | --- |
 | `skill-publisher` | `skill-publisher-1-0` |
-| `world-search` | `jian-suo-shi-jie` |
+| `hyperleo-world-search-pro` | `jian-suo-shi-jie` |
 | `paradigm-leap` | `fan-shi-yue-qian` |
 
 ## 3. 文件结构规范
