@@ -1,0 +1,92 @@
+protocol_version: 1.2.0
+name: hyperleo-skill-audit-protocol
+scope: full
+stages:
+  - snapshot
+  - static
+  - semantic
+  - evidence_verification
+  - reproducibility_gate
+  - decision
+  - score_card
+  - impact
+  - certification
+audit_status_enum:
+  - CERTIFIED
+  - UNSTABLE
+  - INSUFFICIENT_EVIDENCE
+  - INVALID_INPUT
+  - HUMAN_ADJUDICATED
+lifecycle_decision_enum:
+  - null
+  - KEEP
+  - UPGRADE
+  - MERGE
+  - SPLIT
+  - DEPRECATE
+lifecycle_status_enum:
+  - ISSUED
+  - WITHHELD
+human_report_locale: zh-CN
+machine_schema_language: en
+human_report:
+  type: deterministic_projection
+  fixed_structure:
+    - title
+    - summary
+    - core_status
+    - capability_audit
+    - blockers
+    - next_steps
+    - coverage
+    - lifecycle_detail
+    - audit_metadata
+    - technical_details_collapsed
+  forbidden:
+    - second_audit
+    - new_facts
+    - llm_reinterpretation
+    - hash_at_first_screen
+state_model:
+  orthogonal: true
+  note: "audit_status 只描述本次审计是否可靠；lifecycle_decision 只描述 Skill 应如何处理；INSUFFICIENT_EVIDENCE 只允许出现在 audit_status。"
+invariants:
+  - Read Only
+  - Evidence First
+  - Deterministic Where Possible
+  - LLM Extracts; Rules Decide
+  - Uncertainty Is a Valid Result
+  - Same Evidence + Same Protocol = Same Certified Verdict
+reproducibility:
+  audit_key_algorithm: SHA256(evidence_bundle_hash || protocol_hash)
+  cache: content_addressed
+  disallowed:
+    - majority_voting
+    - temperature_zero_claim
+    - regenerate_certified_result
+semantic_layer:
+  permission: feature_extraction_only
+  forbidden:
+    - lifecycle_decision
+    - total_score
+    - unanchored_inference
+    - model_reported_confidence
+metrics:
+  semantic_agreement: "null unless independent semantic reproduction was performed"
+  evidence_coverage:
+    - snapshot_coverage
+    - decision_evidence_coverage
+    - usage_coverage
+    - behavior_coverage
+    - reproducibility_coverage
+provisional_direction:
+  note: "WITHHELD 时由 decision_engine.py 输出候选方向；只作人类参考，不触发治理动作"
+  enum: [NONE, KEEP_CANDIDATE, UPGRADE_CANDIDATE, MERGE_CANDIDATE, SPLIT_CANDIDATE, DEPRECATE_CANDIDATE]
+health_score_status:
+  enum: [VERIFIED, PARTIAL, PROVISIONAL]
+  note: "PARTIAL = 结构检查全过但关键证据未齐；PROVISIONAL = 存在未通过检查项"
+scoring:
+  health_score: "0-100 deterministic; quick understanding & sorting only; never part of Lifecycle Decision"
+  maturity_levels: [L1, L2, L3, L4, L5]
+  certification_levels: [C0, C1, C2, C3, C4]
+  definitions: protocol/scoring.json

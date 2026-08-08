@@ -1,0 +1,16 @@
+---
+name: pure-skill
+description: 搜索候选项目并按相关性排序输出，一个 Job。
+---
+
+# pure-skill
+
+**版本**：1.0.0（2026-08-08）
+
+## 概览
+搜索 GitHub 项目 → 排序 → 输出候选项目。回归记录见 references/regressions.md。
+
+## 工作流
+1. 检索候选项目。
+2. 按相关性排序。
+3. 输出候选清单。

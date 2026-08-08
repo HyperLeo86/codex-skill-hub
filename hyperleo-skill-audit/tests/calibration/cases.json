@@ -1,0 +1,164 @@
+[
+  {
+    "id": "calibration_pure_skill",
+    "expected": { "lifecycle_decision": "KEEP", "lifecycle_status": "ISSUED" },
+    "features": {
+      "identity_clear": "YES",
+      "value_established": "YES",
+      "integrity_acceptable": "YES",
+      "dependency_healthy": "YES",
+      "unique_position": "YES",
+      "deletion_loss_described": "YES",
+      "duplicate_relationship": "NONE",
+      "behavior_failure": "NO",
+      "material_contract_failure": "NO",
+      "usage_frequency": "HIGH",
+      "unique_value": "YES",
+      "replaceability": "LOW",
+      "unique_assets": "YES",
+      "single_primary_job": "YES",
+      "multiple_independent_jobs": "NO",
+      "each_job_independent": "NO"
+    }
+  },
+  {
+    "id": "calibration_duplicate",
+    "expected": { "lifecycle_decision": "MERGE", "lifecycle_status": "ISSUED" },
+    "features": {
+      "duplicate_relationship": "DUPLICATE",
+      "unique_value": "NO",
+      "replaceability": "HIGH",
+      "unique_assets": "NO",
+      "usage_frequency": "LOW"
+    }
+  },
+  {
+    "id": "calibration_should_split",
+    "expected": { "lifecycle_decision": "SPLIT", "lifecycle_status": "ISSUED" },
+    "features": {
+      "single_primary_job": "NO",
+      "multiple_independent_jobs": "YES",
+      "each_job_independent": "YES"
+    }
+  },
+  {
+    "id": "calibration_low_value",
+    "expected": { "lifecycle_decision": "DEPRECATE", "lifecycle_status": "ISSUED" },
+    "features": {
+      "identity_clear": "NO",
+      "value_established": "NO",
+      "unique_value": "NO",
+      "replaceability": "HIGH",
+      "unique_assets": "NO",
+      "usage_frequency": "LOW"
+    }
+  },
+  {
+    "id": "calibration_high_value_low_frequency",
+    "expected": { "lifecycle_decision": "KEEP", "lifecycle_status": "ISSUED" },
+    "features": {
+      "identity_clear": "YES",
+      "value_established": "YES",
+      "integrity_acceptable": "YES",
+      "dependency_healthy": "YES",
+      "unique_position": "YES",
+      "deletion_loss_described": "YES",
+      "duplicate_relationship": "NONE",
+      "behavior_failure": "NO",
+      "material_contract_failure": "NO",
+      "usage_frequency": "LOW",
+      "unique_value": "YES",
+      "replaceability": "LOW",
+      "unique_assets": "YES",
+      "single_primary_job": "YES",
+      "multiple_independent_jobs": "NO",
+      "each_job_independent": "NO"
+    }
+  },
+  {
+    "id": "calibration_strong_dependency",
+    "expected": { "lifecycle_decision": "UPGRADE", "lifecycle_status": "ISSUED" },
+    "features": {
+      "identity_clear": "YES",
+      "value_established": "YES",
+      "integrity_acceptable": "YES",
+      "dependency_healthy": "NO",
+      "unique_position": "YES",
+      "deletion_loss_described": "YES",
+      "duplicate_relationship": "NONE",
+      "behavior_failure": "NO",
+      "material_contract_failure": "NO",
+      "usage_frequency": "MEDIUM",
+      "unique_value": "YES",
+      "replaceability": "MEDIUM",
+      "unique_assets": "YES"
+    }
+  },
+  {
+    "id": "calibration_doc_good_behavior_bad",
+    "expected": { "lifecycle_decision": "UPGRADE", "lifecycle_status": "ISSUED" },
+    "features": {
+      "identity_clear": "YES",
+      "value_established": "YES",
+      "integrity_acceptable": "YES",
+      "dependency_healthy": "YES",
+      "unique_position": "YES",
+      "deletion_loss_described": "YES",
+      "duplicate_relationship": "NONE",
+      "behavior_failure": "YES",
+      "material_contract_failure": "NO",
+      "usage_frequency": "MEDIUM",
+      "unique_value": "YES",
+      "replaceability": "MEDIUM",
+      "unique_assets": "YES"
+    }
+  },
+  {
+    "id": "calibration_upgrade_usage_unknown",
+    "expected": { "lifecycle_decision": "UPGRADE", "lifecycle_status": "ISSUED" },
+    "features": {
+      "identity_clear": "YES",
+      "value_established": "YES",
+      "integrity_acceptable": "YES",
+      "dependency_healthy": "YES",
+      "unique_position": "YES",
+      "deletion_loss_described": "YES",
+      "duplicate_relationship": "NONE",
+      "behavior_failure": "YES",
+      "material_contract_failure": "NO",
+      "usage_frequency": "UNKNOWN",
+      "unique_value": "YES",
+      "replaceability": "MEDIUM",
+      "unique_assets": "YES"
+    }
+  },
+  {
+    "id": "calibration_keep_candidate",
+    "expected": { "lifecycle_decision": null, "lifecycle_status": "WITHHELD", "provisional_direction": "KEEP_CANDIDATE" },
+    "features": {
+      "identity_clear": "YES",
+      "value_established": "YES",
+      "integrity_acceptable": "YES",
+      "dependency_healthy": "YES",
+      "unique_position": "YES",
+      "deletion_loss_described": "YES",
+      "duplicate_relationship": "NONE",
+      "behavior_failure": "NO",
+      "material_contract_failure": "NO",
+      "usage_frequency": "UNKNOWN",
+      "unique_value": "YES",
+      "replaceability": "MEDIUM",
+      "unique_assets": "YES"
+    }
+  },
+  {
+    "id": "calibration_boundary_fuzzy",
+    "expected": { "lifecycle_decision": null, "lifecycle_status": "WITHHELD", "provisional_direction": "NONE" },
+    "features": {
+      "identity_clear": "UNKNOWN",
+      "value_established": "UNKNOWN",
+      "usage_frequency": "UNKNOWN",
+      "duplicate_relationship": "UNKNOWN"
+    }
+  }
+]

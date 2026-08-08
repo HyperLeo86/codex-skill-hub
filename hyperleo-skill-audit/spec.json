@@ -1,9 +1,10 @@
 {
   "name": "hyperleo-skill-audit",
-  "display_name": "技能合理性审计",
-  "short_description": "审视 Skill 的纯粹性、解耦与独立生态位",
-  "one_liner": "审视一个 Skill 的合理性：纯粹性、功能解耦、独立意图与生态位，输出裁决卡与「独立/合并/拆分/重构」建议",
+  "display_name": "可复现单体 Skill 治理审计",
+  "short_description": "把 Skill 编译为结构化事实与生命周期治理裁决",
+  "one_liner": "把一个 Skill 当成具有身份、价值、契约、行为、边界、依赖和生命周期的软件能力单元，通过可复现的审计协议生成唯一、可追溯、可验证的治理裁决",
   "date": "2026-08-08",
+  "version": "1.2",
   "triggers": [
     "审视一下这个 skill 合不合理",
     "这个 skill 纯粹吗",
@@ -12,50 +13,232 @@
     "这个 skill 有没有独立的生态位",
     "两个 skill 是不是重叠了，该不该合并",
     "帮我判断这个技能该独立还是该拆",
-    "审一下这个 skill 有没有独立意图"
+    "审一下这个 skill 有没有独立意图",
+    "帮我审计一下这个 skill",
+    "这个 skill 应该升级还是拆分",
+    "给这个 skill 出一份审计卡",
+    "用审计协议跑一遍这个技能"
   ],
   "anti_triggers": [
     "对 skill 做四维健康体检与优化方案（走 skill-analyst）",
     "创建/升级技能本体（走 skill-forge）",
-    "把技能发布到 GitHub（走 skill-publisher）"
+    "把技能发布到 GitHub（走 skill-publisher）",
+    "修复或修改目标 skill 的内容（审计只读）"
   ],
   "input_output": {
-    "input": "目标 skill 目录/SKILL.md 路径（可附同级技能目录作生态位参照）",
-    "output": "裁决卡：纯粹性/解耦/独立意图/生态位四项检查 + 结论（独立/合并/拆分/重构）+ 证据位置",
+    "input": "目标 skill 目录/SKILL.md 路径；可选：--neighbors 邻域目录、--usage 使用记录、--cache-dir 认证缓存、--locale 人类报告语言（默认 zh-CN）",
+    "output": "认证治理产物：evidence-bundle.json、facts.json、verified semantic features、repro.json、decision.json、score.json、audit-result.json（含 dashboard 字段）、audit-result.md（Obsidian 人类决策视图）、certificate.json",
     "acceptance": [
-      "裁决卡含 4 项检查（纯粹/解耦/独立意图/生态位），每项附证据位置",
-      "独立意图检查调用 hyperleo-intent-recognition 输出目标 skill 的意图卡",
-      "生态位检查至少对比 2 个同级 skill",
-      "结论四选一（独立/合并/拆分/重构），附触发条件与失效条件",
-      "只读，不修改目标 skill"
+      "同一 Evidence Bundle + 同一 Protocol 必须对应同一 AuditKey；相同 AuditKey 必须返回同一 Certified Result，禁止重新随机生成",
+      "Lifecycle Decision 只由 decision_engine.py 计算；关键证据不足时 lifecycle_decision=null / WITHHELD，并输出 provisional_direction 候选（与正式裁决隔离）",
+      "audit_status 与 lifecycle_decision 严格正交；INSUFFICIENT_EVIDENCE 只允许出现在 Audit Status",
+      "Health Score 由 score_card.py 确定性计算并带 VERIFIED / PARTIAL / PROVISIONAL 状态标签，不参与 Lifecycle Decision；UNKNOWN 不得显示为 0 分",
+      "Human Report 是 Canonical Result 的确定性投影：固定结构（状态→问题→行动→技术证据）、默认 zh-CN、不新增事实、不二次裁决；Hash 等下沉到审计元数据与折叠区",
+      "未进行独立语义复现时 semantic_agreement=null 且人类报告显示 N/A；Evidence Coverage 拆分为五类并转人类百分比",
+      "Audit 只读目标 Skill；audit-result.md 由 render_report.py 确定性生成"
     ]
   },
   "freedom": "medium",
   "failure_modes": [
     {
-      "scenario": "目标路径不存在",
-      "fallback": "停止并询问，不猜测路径"
+      "scenario": "目标路径不存在或缺少 SKILL.md",
+      "fallback": "输出 INVALID_INPUT 与缺失清单，停止并询问，不猜测路径"
     },
     {
-      "scenario": "无同级参照目录",
-      "fallback": "只评前三项，生态位标「待验证」"
+      "scenario": "无法进行两次隔离 Semantic Extraction",
+      "fallback": "semantic_agreement=null、reproducibility_coverage=0、人类报告显示 N/A，禁止声称已通过复现认证"
     },
     {
-      "scenario": "目标 skill 过小（<20 行）",
-      "fallback": "判「雏形」，不做拆分建议"
+      "scenario": "某个 Lifecycle Decision 的关键证据为 UNKNOWN",
+      "fallback": "lifecycle_decision=null / WITHHELD，列出 missing_fields；provisional_direction 只作候选，不触发治理动作"
     },
     {
-      "scenario": "意图识别不可用",
-      "fallback": "手工提取意图，标注渠道缺失"
+      "scenario": "两次语义运行关键字段不一致",
+      "fallback": "audit_status=UNSTABLE 与分歧清单，不输出 Lifecycle Decision"
+    },
+    {
+      "scenario": "无同级参照目录或使用记录",
+      "fallback": "邻居与频率标 UNKNOWN、usage_coverage=0、人类报告显示「未获得」，不猜测"
     },
     {
       "scenario": "被审计对象是本技能自身",
-      "fallback": "使用独立外部检查器与清单，避免自我辩护偏差"
+      "fallback": "使用独立外部检查器与清单，Human Report 标注 Self-Audit 同源偏差为 P2 阻塞项"
     }
   ],
   "token_budget": {
     "skill_md_lines": 260,
     "skill_md_tokens": 2200,
-    "references": ["audit-card.md", "purity-checklist.md", "regressions.md"]
+    "references": [
+      "audit-model.md",
+      "lifecycle.md",
+      "evidence-policy.md",
+      "reproducibility.md",
+      "failure-modes.md",
+      "verdict-card.md",
+      "regressions.md"
+    ]
+  },
+  "machine_contract": {
+    "human_report_locale": "zh-CN",
+    "machine_schema_language": "en",
+    "human_report": {
+      "renderer": "scripts/render_report.py",
+      "type": "deterministic_projection",
+      "fixed_structure": [
+        "title",
+        "summary",
+        "core_status",
+        "capability_audit",
+        "blockers",
+        "next_steps",
+        "coverage",
+        "lifecycle_detail",
+        "audit_metadata",
+        "technical_details_collapsed"
+      ],
+      "forbidden": ["second_audit", "new_facts", "llm_reinterpretation", "hash_at_first_screen"]
+    },
+    "audit_status_enum": [
+      "CERTIFIED",
+      "UNSTABLE",
+      "INSUFFICIENT_EVIDENCE",
+      "INVALID_INPUT",
+      "HUMAN_ADJUDICATED"
+    ],
+    "lifecycle_decision_enum": [
+      null,
+      "KEEP",
+      "UPGRADE",
+      "MERGE",
+      "SPLIT",
+      "DEPRECATE"
+    ],
+    "lifecycle_status_enum": [
+      "ISSUED",
+      "WITHHELD"
+    ],
+    "provisional_direction_enum": [
+      "NONE",
+      "KEEP_CANDIDATE",
+      "UPGRADE_CANDIDATE",
+      "MERGE_CANDIDATE",
+      "SPLIT_CANDIDATE",
+      "DEPRECATE_CANDIDATE"
+    ],
+    "health_score_status_enum": [
+      "VERIFIED",
+      "PARTIAL",
+      "PROVISIONAL"
+    ],
+    "health_score": {
+      "range": "0-100",
+      "computed_by": "score_card.py",
+      "weights": "protocol/scoring.json",
+      "used_in_decision": false
+    },
+    "maturity_level_enum": [
+      "L1",
+      "L2",
+      "L3",
+      "L4",
+      "L5"
+    ],
+    "maturity_level_names": {
+      "L1": "Prototype",
+      "L2": "Structured",
+      "L3": "Tested",
+      "L4": "Governed",
+      "L5": "Certified"
+    },
+    "certification_level_enum": [
+      "C0",
+      "C1",
+      "C2",
+      "C3",
+      "C4"
+    ],
+    "certification_level_names": {
+      "C0": "NotCertified",
+      "C1": "EvidenceCollected",
+      "C2": "SemanticValidated",
+      "C3": "ReproducibilityValidated",
+      "C4": "ProductionCertified"
+    },
+    "dashboard_fields": [
+      "skill_name",
+      "health_score",
+      "health_score_status",
+      "maturity_level",
+      "certification_level",
+      "audit_status",
+      "lifecycle_decision",
+      "provisional_direction",
+      "blocker_count",
+      "p1_blocker_count",
+      "decision_evidence_coverage",
+      "behavior_coverage",
+      "usage_coverage",
+      "reproducibility_coverage",
+      "last_audit_at",
+      "protocol_version"
+    ],
+    "scope": "full",
+    "protocol_version": "1.2.0",
+    "protocol_paths": {
+      "protocol": "protocol/protocol.yaml",
+      "semantic_schema": "protocol/semantic-schema.json",
+      "decision_rules": "protocol/decision-rules.yaml",
+      "scoring": "protocol/scoring.json",
+      "lock": "protocol/protocol.lock.json",
+      "anchors": "protocol/anchors/"
+    },
+    "critical_semantic_fields": [
+      "identity_clear",
+      "value_established",
+      "unique_value",
+      "usage_frequency",
+      "replaceability",
+      "unique_assets",
+      "single_primary_job",
+      "multiple_independent_jobs",
+      "each_job_independent",
+      "dependency_healthy",
+      "unique_position",
+      "duplicate_relationship",
+      "deletion_loss_described",
+      "behavior_failure",
+      "material_contract_failure",
+      "integrity_acceptable"
+    ],
+    "metrics": {
+      "semantic_agreement": "null unless independent semantic reproduction was performed; human report shows N/A",
+      "evidence_coverage": [
+        "snapshot_coverage",
+        "decision_evidence_coverage",
+        "usage_coverage",
+        "behavior_coverage",
+        "reproducibility_coverage"
+      ]
+    },
+    "required_scripts": [
+      "build_snapshot.py",
+      "static_checks.py",
+      "verify_evidence.py",
+      "compare_semantic_runs.py",
+      "decision_engine.py",
+      "score_card.py",
+      "protocol_hash.py",
+      "audit_cache.py",
+      "render_report.py",
+      "run_regression.py"
+    ],
+    "reproducibility_policy": "Reproducibility Invariant：同一 Evidence Bundle + 同一 Audit Protocol 必须对应唯一 Canonical Audit Result。Human Report 是 Canonical Result 的确定性投影，同一 JSON 必须生成字节级一致的 Markdown。",
+    "certification_requirements": [
+      "AuditKey = SHA256(evidence_bundle_hash + protocol_hash)",
+      "仅 CERTIFIED 或 HUMAN_ADJUDICATED 可 ISSUE Lifecycle Decision",
+      "两个独立 Semantic Extraction 的 Decision-Critical Fields 必须一致",
+      "所有 Decision-Critical 字段必须有机器验证的 Evidence Anchor",
+      "相同 AuditKey 禁止重新随机生成，必须返回缓存认证产物"
+    ]
   }
 }

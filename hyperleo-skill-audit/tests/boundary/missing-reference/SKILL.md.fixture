@@ -1,0 +1,11 @@
+---
+name: missing-reference
+description: 边界样例：声明不存在的引用。
+---
+
+# missing-reference
+
+**版本**：1.0.0（2026-08-08）
+
+## 概览
+测试断链检测。详细清单见 references/missing.md 与 references/regressions.md。

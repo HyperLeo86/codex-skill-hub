@@ -1,0 +1,44 @@
+{
+  "name": "missing-reference",
+  "version": "1.0.0",
+  "one_liner": "断链边界样例",
+  "triggers": [
+    "帮我检查引用",
+    "检查断链",
+    "这个引用存在吗",
+    "验证文件引用",
+    "看看资源是否齐全",
+    "检查声明与文件一致性"
+  ],
+  "anti_triggers": [
+    "写代码"
+  ],
+  "input_output": {
+    "input": "Skill 目录",
+    "output": "断链清单",
+    "acceptance": [
+      "列出所有断链",
+      "不修改文件",
+      "输出可复现"
+    ]
+  },
+  "freedom": "medium",
+  "failure_modes": [
+    {
+      "scenario": "目录不存在",
+      "fallback": "停止并询问"
+    },
+    {
+      "scenario": "无引用",
+      "fallback": "输出空清单"
+    },
+    {
+      "scenario": "权限不足",
+      "fallback": "报告并停止"
+    }
+  ],
+  "token_budget": {
+    "skill_md_lines": 120,
+    "skill_md_tokens": 1000
+  }
+}

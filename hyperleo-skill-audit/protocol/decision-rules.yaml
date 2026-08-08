@@ -1,0 +1,26 @@
+rules:
+  split:
+    condition: "multiple_independent_jobs == YES AND each_job_independent == YES"
+    required_fields: [multiple_independent_jobs, each_job_independent]
+  merge:
+    condition: "duplicate_relationship in [DUPLICATE, SUBSET] AND unique_value == NO"
+    required_fields: [duplicate_relationship, unique_value]
+  deprecate:
+    condition: "unique_value == NO AND replaceability == HIGH AND unique_assets == NO AND usage_frequency != HIGH"
+    required_fields: [unique_value, replaceability, unique_assets, usage_frequency]
+  upgrade:
+    condition: "identity_clear == YES AND value_established == YES AND (material_contract_failure == YES OR behavior_failure == YES OR integrity_acceptable == NO OR dependency_healthy == NO)"
+    required_fields: [identity_clear, value_established, material_contract_failure, behavior_failure, integrity_acceptable, dependency_healthy]
+  keep:
+    condition: "identity_clear == YES AND value_established == YES AND integrity_acceptable == YES AND dependency_healthy == YES AND unique_position == YES AND deletion_loss_described == YES AND duplicate_relationship in [NONE, INDEPENDENT, COMPLEMENTARY] AND behavior_failure == NO AND material_contract_failure == NO AND usage_frequency != UNKNOWN"
+    required_fields: [identity_clear, value_established, integrity_acceptable, dependency_healthy, unique_position, deletion_loss_described, duplicate_relationship, behavior_failure, material_contract_failure, usage_frequency]
+priority: [split, merge, deprecate, upgrade, keep]
+withhold:
+  lifecycle_decision: null
+  lifecycle_status: WITHHELD
+  reasons:
+    - missing_required_evidence
+    - no_rule_matched
+    - audit_status_not_certifiable
+gate: "仅 audit_status = CERTIFIED 或 HUMAN_ADJUDICATED 可 ISSUE Lifecycle Decision；其余一律 WITHHELD"
+note: "每个裁决只要求它自己的 required_fields；缺失非本裁决关键证据的字段不阻塞该裁决。KEEP/DEPRECATE 需要 usage_frequency；SPLIT/MERGE/UPGRADE 不需要。"

@@ -1,0 +1,97 @@
+{
+  "scoring_version": "1.1.0",
+  "health_score": {
+    "weights": {
+      "skill_md_exists": 15,
+      "name_matches_dir": 10,
+      "description_present": 5,
+      "spec_exists": 5,
+      "spec_parses": 10,
+      "spec_contract_min": 10,
+      "regressions_ledger_exists": 10,
+      "references_resolve": 15,
+      "scripts_nonempty": 10,
+      "version_consistent": 5,
+      "no_duplicate_files": 5
+    },
+    "note": "权重总和 100；分数 = 通过检查项权重之和；只用于快速理解与排序，不参与 Lifecycle Decision。"
+  },
+  "maturity_levels": {
+    "L1_Prototype": {
+      "requires": ["skill_md_exists"]
+    },
+    "L2_Structured": {
+      "requires": ["spec_parses", "references_resolve"]
+    },
+    "L3_Tested": {
+      "requires": ["tests_exist", "behavior_test_suite_pass"]
+    },
+    "L4_Governed": {
+      "requires": ["calibration_exists", "regressions_all_fixed", "changelog_exists", "protocol_lock_exists"]
+    },
+    "L5_Certified": {
+      "requires": ["independent_repro_stable", "certified_artifact_exists"]
+    }
+  },
+  "certification_levels": {
+    "C0_NotCertified": {
+      "requires": []
+    },
+    "C1_EvidenceCollected": {
+      "requires": ["snapshot_complete", "facts_present"]
+    },
+    "C2_SemanticVerified": {
+      "requires": ["independent_repro_stable"]
+    },
+    "C3_GovernedCalibrated": {
+      "requires": ["calibration_pass", "migration_pass"]
+    },
+    "C4_Certified": {
+      "requires": ["certified_artifact_exists"]
+    }
+  },
+  "coverage_definitions": {
+    "snapshot_coverage": "bundle 中存在的目标证据类型 / 期望证据类型（SKILL.md, spec.json, references, scripts, tests, protocol）",
+    "decision_evidence_coverage": "Decision-Critical Fields 中 status=KNOWN 的比例",
+    "usage_coverage": "usage_evidence 非空为 1.0，否则 0.0",
+    "behavior_coverage": "behavior.test_suite_pass=true 为 1.0；有行为结果但未通过为 0.5；缺失为 0.0",
+    "reproducibility_coverage": "独立语义复现已执行（STABLE 或 UNSTABLE）为 1.0，否则 0.0"
+  },
+  "health_score_status": {
+    "VERIFIED": "health_score == 100 AND decision_evidence_coverage == 1.0",
+    "PARTIAL": "health_score == 100 AND decision_evidence_coverage < 1.0",
+    "PROVISIONAL": "health_score < 100"
+  },
+  "blockers": {
+    "usage_missing": {
+      "priority": "P1",
+      "gap": "缺少真实 Usage Evidence",
+      "impact": "无法判断长期必要性（KEEP/DEPRECATE 需 usage_frequency）"
+    },
+    "repro_missing": {
+      "priority": "P1",
+      "gap": "未完成独立语义复现",
+      "impact": "无法升级为正式认证状态"
+    },
+    "semantic_unstable": {
+      "priority": "P1",
+      "gap": "语义结果不稳定",
+      "impact": "审计状态为 UNSTABLE，无法认证"
+    },
+    "facts_incomplete": {
+      "priority": "P1",
+      "gap": "确定性结构检查未通过",
+      "impact": "facts 不完整"
+    },
+    "behavior_incomplete": {
+      "priority": "P2",
+      "gap": "行为测试未通过或缺失",
+      "impact": "行为证据不完整"
+    },
+    "self_audit_bias": {
+      "priority": "P2",
+      "gap": "Self-Audit 同源偏差",
+      "impact": "需独立 Agent / 人工复核"
+    }
+  }
+}

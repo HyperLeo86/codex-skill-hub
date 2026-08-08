@@ -1,0 +1,42 @@
+[
+  {
+    "id": "llm_direct_verdict_forbidden",
+    "expect": "decision_unit"
+  },
+  {
+    "id": "invalid_evidence_anchor_unknown",
+    "expect": "evidence_verify_invalid"
+  },
+  {
+    "id": "semantic_disagreement_unstable",
+    "expect": "repro_gate_unstable"
+  },
+  {
+    "id": "unknown_field_withheld",
+    "expect": "decision_withheld"
+  },
+  {
+    "id": "certified_result_reused",
+    "expect": "cache_content_addressed"
+  },
+  {
+    "id": "unverified_agreement_null",
+    "expect": "repro_gate_unverified"
+  },
+  {
+    "id": "health_score_not_in_decision",
+    "expect": "score_card_golden"
+  },
+  {
+    "id": "report_is_deterministic_projection",
+    "expect": "render_determinism"
+  },
+  {
+    "id": "health_status_partial_not_verified",
+    "expect": "score_card_golden"
+  },
+  {
+    "id": "provisional_direction_isolated",
+    "expect": "decision_unit"
+  }
+]

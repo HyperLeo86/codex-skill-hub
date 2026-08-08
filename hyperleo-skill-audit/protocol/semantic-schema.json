@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.0.0",
+  "sections": {
+    "identity": {
+      "one_job": { "type": "string", "enum": ["YES", "NO", "UNKNOWN"], "critical": false, "evidence_required": true },
+      "identity_clear": { "type": "string", "enum": ["YES", "NO", "UNKNOWN"], "critical": true, "evidence_required": true },
+      "intent_consistency": { "type": "string", "enum": ["YES", "NO", "UNKNOWN"], "critical": false, "evidence_required": true },
+      "identity_drift": { "type": "string", "enum": ["YES", "NO", "UNKNOWN"], "critical": false, "evidence_required": true }
+    },
+    "necessity": {
+      "value_established": { "type": "string", "enum": ["YES", "NO", "UNKNOWN"], "critical": true, "evidence_required": true },
+      "unique_value": { "type": "string", "enum": ["YES", "NO", "UNKNOWN"], "critical": true, "evidence_required": true },
+      "complexity_requires_skill": { "type": "string", "enum": ["YES", "NO", "UNKNOWN"], "critical": false, "evidence_required": true },
+      "usage_frequency": { "type": "string", "enum": ["HIGH", "MEDIUM", "LOW", "UNKNOWN"], "critical": true, "evidence_required": true },
+      "replaceability": { "type": "string", "enum": ["LOW", "MEDIUM", "HIGH", "UNKNOWN"], "critical": true, "evidence_required": true },
+      "unique_assets": { "type": "string", "enum": ["YES", "NO", "UNKNOWN"], "critical": true, "evidence_required": true }
+    },
+    "purity": {
+      "single_primary_job": { "type": "string", "enum": ["YES", "NO", "UNKNOWN"], "critical": true, "evidence_required": true },
+      "multiple_independent_jobs": { "type": "string", "enum": ["YES", "NO", "UNKNOWN"], "critical": true, "evidence_required": true },
+      "each_job_independent": { "type": "string", "enum": ["YES", "NO", "UNKNOWN"], "critical": true, "evidence_required": true },
+      "workflow_aligned": { "type": "string", "enum": ["YES", "NO", "UNKNOWN"], "critical": false, "evidence_required": true },
+      "no_side_jobs": { "type": "string", "enum": ["YES", "NO", "UNKNOWN"], "critical": false, "evidence_required": true }
+    },
+    "boundary": {
+      "trigger_boundary_clean": { "type": "string", "enum": ["YES", "NO", "UNKNOWN"], "critical": false, "evidence_required": true },
+      "anti_trigger_present": { "type": "string", "enum": ["YES", "NO", "UNKNOWN"], "critical": false, "evidence_required": true },
+      "dependency_healthy": { "type": "string", "enum": ["YES", "NO", "UNKNOWN"], "critical": true, "evidence_required": true }
+    },
+    "position": {
+      "unique_position": { "type": "string", "enum": ["YES", "NO", "UNKNOWN"], "critical": true, "evidence_required": true },
+      "duplicate_relationship": { "type": "string", "enum": ["NONE", "INDEPENDENT", "COMPLEMENTARY", "UPSTREAM", "DOWNSTREAM", "ALTERNATIVE", "OVERLAP", "SUBSET", "DUPLICATE", "UNKNOWN"], "critical": true, "evidence_required": true },
+      "deletion_loss_described": { "type": "string", "enum": ["YES", "NO", "UNKNOWN"], "critical": true, "evidence_required": true }
+    },
+    "behavior": {
+      "golden_cases_pass": { "type": "string", "enum": ["YES", "NO", "UNKNOWN"], "critical": false, "evidence_required": true },
+      "boundary_cases_pass": { "type": "string", "enum": ["YES", "NO", "UNKNOWN"], "critical": false, "evidence_required": true },
+      "regressions_pass": { "type": "string", "enum": ["YES", "NO", "UNKNOWN"], "critical": false, "evidence_required": true },
+      "behavior_failure": { "type": "string", "enum": ["YES", "NO", "UNKNOWN"], "critical": true, "evidence_required": true }
+    },
+    "integrity": {
+      "material_contract_failure": { "type": "string", "enum": ["YES", "NO", "UNKNOWN"], "critical": true, "evidence_required": false },
+      "integrity_acceptable": { "type": "string", "enum": ["YES", "NO", "UNKNOWN"], "critical": true, "evidence_required": false }
+    }
+  },
+  "decision_critical_fields": [
+    "identity_clear",
+    "value_established",
+    "unique_value",
+    "usage_frequency",
+    "replaceability",
+    "unique_assets",
+    "single_primary_job",
+    "multiple_independent_jobs",
+    "each_job_independent",
+    "dependency_healthy",
+    "unique_position",
+    "duplicate_relationship",
+    "deletion_loss_described",
+    "behavior_failure",
+    "material_contract_failure",
+    "integrity_acceptable"
+  ],
+  "output_rule": "LLM 只输出符合本 schema 的 JSON；每个字段必须携带 evidence anchors；禁止输出 Lifecycle Decision、总分或模型自报 Confidence。",
+  "evidence_anchor_rule": "每个 anchor 必须包含 file、line_start、line_end，可选 quote_hash；所有 anchor 由 verify_evidence.py 机器验证，无效则字段降级为 UNKNOWN。"
+}

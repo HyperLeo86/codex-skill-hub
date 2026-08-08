@@ -16,7 +16,7 @@
 | hyperleo-persona-scout | 0.2.0 | 按关系身份输出带证据分级的关系情报：消费意图卡 → 事实层一次检索 → 关系透镜 → 行动建议 |
 | hyperleo-prd-writer | 1.1 | 示例驱动的可执行 PRD（产品需求文档）撰写与审核技能：三视角访谈 → 概念版对齐 → 落地版（每条规则配例子、AC 产出 GWT）→ DoR 100 分闸门 → 纵横审核 → 交… |
 | hyperleo-skill-analyst | 1.2 | 对现有 Skill 做四维体检（逻辑/可用性/可修改性/可进化），输出带证据的问题清单与精准优化方案，也可输出「身份卡」概览 |
-| hyperleo-skill-audit | 0.1.0 | 审视一个 Skill 的合理性：纯粹性、功能解耦、独立意图与生态位，输出裁决卡与「独立/合并/拆分/重构」建议 |
+| hyperleo-skill-audit | 1.2 | 把一个 Skill 当成具有身份、价值、契约、行为、边界、依赖和生命周期的软件能力单元，通过可复现的审计协议生成唯一、可追溯、可验证的治理裁决 |
 | hyperleo-skill-forge | 1.5 | 用「契约驱动 + 可测试 + 自进化」创建或升级 Agent 技能（Skill），统一版 v1.5：契约校验化、HyperLeo 命名规范、账本种子与发布门 |
 | hyperleo-skill-lens | 0.2 | 把任意 Agent Skill（GitHub 链接 / 本地 SKILL.md / 仅名称）变成一张可收藏的「说明图片」（PNG 海报）：一句话定位 + 比喻逻辑 + 好处场景 +… |
 | hyperleo-skill-publisher | 1.4 | 按「技能发布与版本管理规范」生成、校验 Codex 技能，维护版本与 CHANGELOG，并发布到 GitHub |

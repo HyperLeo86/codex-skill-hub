@@ -1,4 +1,4 @@
 interface:
-  display_name: "技能合理性审计"
-  short_description: "审视 Skill 的纯粹性、解耦与独立生态位"
-  default_prompt: "Use $hyperleo-skill-audit to 审视一个 Skill 的合理性：纯粹性、功能解耦、独立意图与生态位，输出裁决卡与「独立/合并/拆分/重构」建议."
+  display_name: "可复现单体 Skill 治理审计"
+  short_description: "把 Skill 编译为结构化事实与生命周期治理裁决"
+  default_prompt: "Use $hyperleo-skill-audit to 把一个 Skill 当成具有身份、价值、契约、行为、边界、依赖和生命周期的软件能力单元，通过可复现的审计协议生成唯一、可追溯、可验证的治理裁决."
