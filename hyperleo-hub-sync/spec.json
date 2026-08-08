@@ -1,0 +1,60 @@
+{
+  "name": "hyperleo-hub-sync",
+  "one_liner": "把私有技能仓库 codex-skill-hub 的最新版本拉取到本机并更新 ~/.codex/skills：git 拉取 → 逐技能比对 → 备份旧版 → 覆盖安装 → 报告差异",
+  "display_name": "HyperLeo Hub Sync",
+  "short_description": "拉取 codex-skill-hub 最新版并更新本地 ~/.codex/skills",
+  "default_prompt": "更新我的技能库",
+  "triggers": [
+    "更新我的技能库",
+    "把 codex-skill-hub 的最新版本更新到本地",
+    "同步技能库到本地",
+    "把 GitHub 上的技能更新到本地",
+    "更新本地 skills",
+    "拉取技能库的最新版本",
+    "我的技能是不是有新版本，更新一下"
+  ],
+  "anti_triggers": [
+    "把本地技能发布/推送到 GitHub（走 hyperleo-skill-publisher）",
+    "创建或升级技能内容本身（走 hyperleo-skill-forge）",
+    "分析技能质量（走 hyperleo-skill-analyst）"
+  ],
+  "input_output": {
+    "input": "无必需参数；可用环境变量覆盖仓库地址、分支、mirror 目录与目标目录",
+    "output": "同步摘要：新增 / 更新（含备份路径）/ 未变 / 本地独有清单",
+    "acceptance": [
+      "本地 mirror 与远端 main 一致（git fetch + reset 成功）",
+      "仓库内每个含 SKILL.md 的一层目录在目标目录都有同名最新副本",
+      "被覆盖的目标目录先整体备份到 backup 目录，摘要列出备份路径",
+      "DRY_RUN=1 时只预览不写任何目标文件"
+    ]
+  },
+  "freedom": "low",
+  "failure_modes": [
+    {
+      "scenario": "私有仓库无凭据",
+      "fallback": "报错并提示 gh auth login 或配置 SSH，不猜测凭据"
+    },
+    {
+      "scenario": "mirror 有本地改动导致 pull 冲突",
+      "fallback": "mirror 视为只读缓存，用 fetch + reset --hard 对齐远端；失败则停止且不动目标目录"
+    },
+    {
+      "scenario": "目标目录有本地改动",
+      "fallback": "先整体备份再覆盖，绝不静默删除；摘要给出备份路径"
+    },
+    {
+      "scenario": "网络不可用",
+      "fallback": "明确报错，保留现有本地副本不动作"
+    },
+    {
+      "scenario": "仓库内出现非技能目录或损坏的 SKILL.md",
+      "fallback": "跳过并列出，不做猜测性处理"
+    }
+  ],
+  "token_budget": {
+    "skill_md_lines": 200,
+    "skill_md_tokens": 1800,
+    "references": []
+  },
+  "date": "2026-08-07"
+}

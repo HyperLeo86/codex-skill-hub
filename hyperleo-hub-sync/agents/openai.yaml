@@ -1,0 +1,4 @@
+interface:
+  display_name: "HyperLeo Hub Sync"
+  short_description: "拉取 codex-skill-hub 最新版并更新本地 ~/.codex/skills"
+  default_prompt: "更新我的技能库"

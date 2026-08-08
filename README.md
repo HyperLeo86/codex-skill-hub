@@ -8,6 +8,7 @@
 | --- | --- | --- |
 | hyperleo-ash-verdict | 1.0 | 任务或过程失败后，重放意图与过程，只输出事实、1-2 条技术性错误/缺失、0-1 条人文性错误/概念，并写入错误日志 |
 | hyperleo-github-lens | 0.3.0 | 把任意 GitHub URL 变成一张可复现、可校准、可累积的项目分析卡，并同步进 Obsidian 看板（汇总 + 简页 + 深入分析） |
+| hyperleo-hub-sync | 0.2 | 把私有技能仓库 codex-skill-hub 的最新版本拉取到本机并更新 ~/.codex/skills：git 拉取 → 逐技能比对 → 备份旧版 → 覆盖安装 → 报告差异 |
 | hyperleo-image-gen-router | 1.1 | 统一路由并调用用户已开通的生图 API（阿里通义万相 DashScope、火山方舟 ARK），按可用 Key 与任务类型自动选择模型，未来新增提供方只需扩展注册表 |
 | hyperleo-intent-recognition | 0.1.0 | 任务/技能开工前的意图识别与澄清：识别真实意图、澄清模糊目标、输出意图卡（What/For whom/Decision/Success signal/Relationship），确… |
 | hyperleo-iron-vault | 1.4 | 审计并落地 Codex × 1Password 统一密钥管理；本地 ~/.codex/.env 只作纯 KEY=VALUE 显式缓存，按需 pull/push 同步 |
@@ -21,6 +22,8 @@
 | hyperleo-skill-publisher | 1.4 | 按「技能发布与版本管理规范」生成、校验 Codex 技能，维护版本与 CHANGELOG，并发布到 GitHub |
 | hyperleo-small-council | 0.2 | 把高风险、多步骤、多 agent 的交付任务变成「分权 + 证据 + 状态机 + 人工门」的治理系统：实现、审查、发布、记账角色分离，流程可恢复，失败可沉淀 |
 | hyperleo-world-search-pro | 1.2 | 动手前的方案侦察 + 决策 + 归档完整流水线：多引擎检索、六层选型、业务价值与许可硬检查、谱系解释、Verdict 行与置信度、报告归档 |
+| medlit-search | 0.1 | 医药/生命科学文献检索与交叉验证（NCBI E-utilities/PubMed + Europe PMC REST API） |
+| verification-before-completion | 0.1 | Use when about to claim work is complete, fixed, or passing, before committing or creating… |
 
 ## 版本管理规则
 

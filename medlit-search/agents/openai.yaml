@@ -1,0 +1,4 @@
+interface:
+  display_name: "医药文献检索"
+  short_description: "检索 PubMed/Europe PMC 医药文献并交叉验证"
+  default_prompt: "Use $medlit-search to search PubMed/Europe PMC for medical literature and cross-verify the results."
