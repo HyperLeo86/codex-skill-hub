@@ -1,0 +1,4 @@
+interface:
+  display_name: "意图识别"
+  short_description: "开工前识别真实意图、澄清模糊目标并输出意图卡"
+  default_prompt: "Use $hyperleo-intent-recognition to 任务/技能开工前的意图识别与澄清：识别真实意图、澄清模糊目标、输出意图卡（What/For whom/Decision/Success signal/Relationship），确认后放行."

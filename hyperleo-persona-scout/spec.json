@@ -1,0 +1,76 @@
+{
+  "name": "hyperleo-persona-scout",
+  "display_name": "人物分析（关系情报）",
+  "short_description": "按关系身份输出带证据分级的关系情报：事实层 + 透镜层 + 建议层",
+  "one_liner": "按关系身份输出关系情报：消费意图卡 → 事实层一次检索 → 关系透镜 → 行动建议，全部证据分级",
+  "date": "2026-08-08",
+  "triggers": [
+    "帮我查一下这个人是谁",
+    "调研一下这个明星的履历",
+    "这个人是什么来头？",
+    "给我一份 XXX 的人物画像",
+    "快速了解一下这个人",
+    "帮我查一下这个 GitHub/微博/推特作者是谁",
+    "这个企业家/学者/网红什么背景？",
+    "帮我做一份这个人的公开资料档案",
+    "以潜在合作方/对手/老师/陌生人的身份帮我分析这个人"
+  ],
+  "anti_triggers": [
+    "深度人肉或收集非公开隐私（住址/电话/未公开信息）",
+    "把人物蒸馏成可对话的思维模型 Skill",
+    "查公司/产品/组织本身的调研",
+    "需要付费数据库或会员墙的深挖"
+  ],
+  "input_output": {
+    "input": "目标人物姓名/昵称/ID + 意图卡（含 Relationship；缺省时调用 hyperleo-intent-recognition 出卡）",
+    "output": "关系情报卡 Markdown：事实层 5 区块（身份速览/履历时间线/代表作与关键资产/网络足迹/证据分级）+ 透镜层 1 区块（关系视角分析）+ 建议层 1 区块（行动建议 + 证据追溯）",
+    "acceptance": [
+      "每个事实条目带来源 URL 与置信度（A/B/C/D），无来源事实不写入正文",
+      "输出含事实层/透镜层/建议层，透镜由意图卡 Relationship 决定，不自问意图",
+      "意图卡缺失时用 [ASSUMPTION] 标注默认关系，不阻塞放行",
+      "建议必须可追溯到事实层证据，无证据的建议不写",
+      "存在重名歧义时，开头给出消歧声明",
+      "中文正文 ≤ 1800 词，超出部分进附录"
+    ]
+  },
+  "freedom": "medium",
+  "failure_modes": [
+    {
+      "scenario": "重名/同名人物混淆",
+      "fallback": "用 handle、地域、职业、作品等线索消歧；仍歧义则输出候选列表并分别给证据"
+    },
+    {
+      "scenario": "检索渠道缺失（无 Exa/Tavily key）",
+      "fallback": "降级为内置搜索 + 官方站点直连，并在检索日志中标注缺失渠道"
+    },
+    {
+      "scenario": "目标人物信息极少或非主流",
+      "fallback": "输出浅层画像并标记 LOW 置信度，提示走长尾渠道或后续扩展"
+    },
+    {
+      "scenario": "主流媒体语言非中文",
+      "fallback": "双语检索，保留原文证据，翻译内容标注「译」"
+    },
+    {
+      "scenario": "输入只有孤名、无任何线索",
+      "fallback": "先调用 hyperleo-intent-recognition 出意图卡，再开始检索"
+    },
+    {
+      "scenario": "来源事实冲突（年龄/职务/作品等）",
+      "fallback": "并列冲突来源，取多源一致值并标注分歧"
+    },
+    {
+      "scenario": "无意图卡且意图识别不可用",
+      "fallback": "以 [ASSUMPTION] 默认 Relationship=陌生人 出卡，标注待确认"
+    },
+    {
+      "scenario": "用户中途更换关系身份",
+      "fallback": "事实层缓存复用，只重跑透镜层与建议层"
+    }
+  ],
+  "token_budget": {
+    "skill_md_lines": 290,
+    "skill_md_tokens": 2400,
+    "references": ["channels.md", "dossier-template.md", "lens-registry.md", "advice-templates.md", "regressions.md"]
+  }
+}

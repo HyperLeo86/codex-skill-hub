@@ -1,0 +1,4 @@
+interface:
+  display_name: "人物画像侦察兵"
+  short_description: "快速调研公众人物并输出带证据分级的人物画像"
+  default_prompt: "Use $hyperleo-persona-scout to 快速调研公众人物（优先明星/主流媒体可查对象），输出带证据分级的结构化人物画像."

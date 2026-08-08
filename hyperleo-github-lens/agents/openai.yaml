@@ -1,0 +1,4 @@
+interface:
+  display_name: "GitHub 项目透镜"
+  short_description: "把任意 GitHub URL 变成可复现、可校准、可累积的 Obsidian 项目分析看板"
+  default_prompt: "Use $hyperleo-github-lens to 把任意 GitHub URL 变成一张可复现、可校准、可累积的项目分析卡，并同步进 Obsidian 看板（汇总 + 简页 + 深入分析）."

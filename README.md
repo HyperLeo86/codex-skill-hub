@@ -7,11 +7,15 @@
 | 技能 | 版本 | 说明 |
 | --- | --- | --- |
 | hyperleo-ash-verdict | 1.0 | 任务或过程失败后，重放意图与过程，只输出事实、1-2 条技术性错误/缺失、0-1 条人文性错误/概念，并写入错误日志 |
+| hyperleo-github-lens | 0.3.0 | 把任意 GitHub URL 变成一张可复现、可校准、可累积的项目分析卡，并同步进 Obsidian 看板（汇总 + 简页 + 深入分析） |
 | hyperleo-image-gen-router | 1.1 | 统一路由并调用用户已开通的生图 API（阿里通义万相 DashScope、火山方舟 ARK），按可用 Key 与任务类型自动选择模型，未来新增提供方只需扩展注册表 |
+| hyperleo-intent-recognition | 0.1.0 | 任务/技能开工前的意图识别与澄清：识别真实意图、澄清模糊目标、输出意图卡（What/For whom/Decision/Success signal/Relationship），确… |
 | hyperleo-iron-vault | 1.4 | 审计并落地 Codex × 1Password 统一密钥管理；本地 ~/.codex/.env 只作纯 KEY=VALUE 显式缓存，按需 pull/push 同步 |
-| hyperleo-paradigm-leap | 1.2 | 在解题之前先换坐标系：压缩问题、测量基线、扫描世界、抽象机制、跨域迁移、最小验证、固化进化，寻找数量级提升的解法（降维打击） |
+| hyperleo-paradigm-leap | 1.3 | 在解题之前先换坐标系：压缩问题、测量基线、扫描世界、抽象机制、跨域迁移、最小验证、固化进化，寻找数量级提升的解法（降维打击） |
+| hyperleo-persona-scout | 0.2.0 | 按关系身份输出带证据分级的关系情报：消费意图卡 → 事实层一次检索 → 关系透镜 → 行动建议 |
 | hyperleo-prd-writer | 1.1 | 示例驱动的可执行 PRD（产品需求文档）撰写与审核技能：三视角访谈 → 概念版对齐 → 落地版（每条规则配例子、AC 产出 GWT）→ DoR 100 分闸门 → 纵横审核 → 交… |
 | hyperleo-skill-analyst | 1.2 | 对现有 Skill 做四维体检（逻辑/可用性/可修改性/可进化），输出带证据的问题清单与精准优化方案，也可输出「身份卡」概览 |
+| hyperleo-skill-audit | 0.1.0 | 审视一个 Skill 的合理性：纯粹性、功能解耦、独立意图与生态位，输出裁决卡与「独立/合并/拆分/重构」建议 |
 | hyperleo-skill-forge | 1.5 | 用「契约驱动 + 可测试 + 自进化」创建或升级 Agent 技能（Skill），统一版 v1.5：契约校验化、HyperLeo 命名规范、账本种子与发布门 |
 | hyperleo-skill-lens | 0.2 | 把任意 Agent Skill（GitHub 链接 / 本地 SKILL.md / 仅名称）变成一张可收藏的「说明图片」（PNG 海报）：一句话定位 + 比喻逻辑 + 好处场景 +… |
 | hyperleo-skill-publisher | 1.4 | 按「技能发布与版本管理规范」生成、校验 Codex 技能，维护版本与 CHANGELOG，并发布到 GitHub |

@@ -1,0 +1,74 @@
+{
+  "name": "hyperleo-github-lens",
+  "display_name": "GitHub 项目分析",
+  "short_description": "把任意 GitHub URL 变成可复现、可校准、可累积的项目分析卡，并同步 Obsidian 三件套",
+  "one_liner": "GitHub URL → L1 确定性信号 + 锚点校准评分 + 同类对比 + Obsidian 看板/简页/深入分析归档",
+  "date": "2026-08-08",
+  "triggers": [
+    "分析一下这个 GitHub 项目",
+    "帮我看看这个仓库值不值得学/用",
+    "把这个 GitHub 链接拆解一下，告诉我它怎么工作的",
+    "对比一下这两个 GitHub 项目",
+    "给这个开源项目打个分",
+    "研究一下这个 repo，输出一份项目分析卡",
+    "这个项目有没有价值，值得深入学习吗",
+    "重新分析一下这个项目，看看和上次有什么不同"
+  ],
+  "anti_triggers": [
+    "发布/同步技能到 GitHub（走 skill-publisher）",
+    "只修 bug 或重构某个仓库的代码",
+    "做市场调研或竞品全景报告"
+  ],
+  "input_output": {
+    "input": "GitHub URL / owner/repo / 本地路径 + 目的标签（学习/采用/选型/对标，缺省学习）",
+    "output": "项目分析卡（L1 信号表 + L2 锚点校准评分 + 同类对比表 + Verdict + 置信度）+ Obsidian 三件套（看板/简页/深入分析）",
+    "acceptance": [
+      "每次输出必含 Verdict 行（学它/用它/对标它/放弃/观察 + 证据）与置信度（HIGH/MEDIUM/LOW）",
+      "评分必须拆分为 L1 确定性信号与 L2 语义判断，且每个 L2 维度相对 references/anchors.md 的锚点解释",
+      "必须产出至少 1 张同类对比表（≥2 个项目，含定位差异）",
+      "S0 红旗命中（archived/停更>12 个月/无 License/刷星证据）必须显式写进结论",
+      "重复分析同一仓库时，必须输出与历史卡片的版本差异（diff）；首次分析标注「首次，无 diff」",
+      "每次分析必须产出/更新 Obsidian 三件套；找不到 Vault 时降级到 outputs 并在报告中说明"
+    ]
+  },
+  "freedom": "medium",
+  "failure_modes": [
+    {
+      "scenario": "链接无效/仓库不存在/私有仓库",
+      "fallback": "停止分析并报告错误类型，不编造元数据"
+    },
+    {
+      "scenario": "GitHub API 限流或元数据缺失",
+      "fallback": "L1 脚本输出 unavailable，用仓库页面可见信息降级并标「待验证」"
+    },
+    {
+      "scenario": "仓库超大导致分析超时",
+      "fallback": "降档 Quick：只做概览+目录职责，深读标为下一步"
+    },
+    {
+      "scenario": "License 缺失或 AGPL/GPL/BSL",
+      "fallback": "显式写出合规后果并计入一票否决/条件通过"
+    },
+    {
+      "scenario": "找不到同类项目",
+      "fallback": "降级为生态位判断：说明无直接同类+最近邻替代，不编造对比"
+    },
+    {
+      "scenario": "目的标签缺失",
+      "fallback": "默认「学习」权重，输出中提示可换权重"
+    },
+    {
+      "scenario": "知识库无历史卡片",
+      "fallback": "标注「首次分析」，跳过 diff，对比集走搜索"
+    },
+    {
+      "scenario": "Obsidian Vault 未找到",
+      "fallback": "scripts/obsidian_locate.sh 定位失败时，把三件套写入 outputs/obsidian-export/ 并在报告中提示配置 OBSIDIAN_VAULT"
+    }
+  ],
+  "token_budget": {
+    "skill_md_lines": 280,
+    "skill_md_tokens": 2400,
+    "references": ["anchors.md", "scoring_rules.md", "project_card.md", "obsidian_layout.md", "regressions.md"]
+  }
+}

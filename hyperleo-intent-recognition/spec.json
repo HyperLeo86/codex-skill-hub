@@ -1,0 +1,60 @@
+{
+  "name": "hyperleo-intent-recognition",
+  "display_name": "意图识别",
+  "short_description": "开工前识别真实意图、澄清模糊目标并输出意图卡",
+  "one_liner": "任务/技能开工前的意图识别与澄清：识别真实意图、澄清模糊目标、输出意图卡（What/For whom/Decision/Success signal/Relationship），确认后放行",
+  "date": "2026-08-08",
+  "triggers": [
+    "先帮我理清楚我要做什么",
+    "帮我识别一下我的真实意图",
+    "我有个想法但说不清目的",
+    "开工前先帮我澄清目标和意图",
+    "这个需求背后到底想解决什么",
+    "帮我确认一下我到底想干嘛",
+    "先别动手，帮我梳理一下目标",
+    "帮我做一件事之前，先确认我的意图"
+  ],
+  "anti_triggers": [
+    "直接执行任务本身（意图识别只做前置门，不代工）",
+    "技能封装与 SKILL.md 生成（走 skill-forge）",
+    "深度用户调研/访谈执行（走 prd-writer 三视角访谈）"
+  ],
+  "input_output": {
+    "input": "用户的一句话需求/任务描述（可含关系、场景、约束等线索）",
+    "output": "意图卡（What/For whom/Decision/Success signal/Relationship 五字段）+ 澄清记录 + 放行/退回结论",
+    "acceptance": [
+      "输出五字段意图卡，每字段 ≤20 词",
+      "澄清轮次 ≤3，且所有提问为非引导式",
+      "用户确认后放行；用户修正后重出意图卡",
+      "置信度高时不强行追问，直接出卡"
+    ]
+  },
+  "freedom": "medium",
+  "failure_modes": [
+    {
+      "scenario": "用户不配合澄清",
+      "fallback": "输出带 [ASSUMPTION] 标签的意图卡并标「待确认」，不阻塞放行"
+    },
+    {
+      "scenario": "存在多个互斥意图",
+      "fallback": "输出候选意图列表让用户选择，不自行合并"
+    },
+    {
+      "scenario": "完全无上下文（只有孤词）",
+      "fallback": "先问「对象/场景/目的」三件事，不猜"
+    },
+    {
+      "scenario": "用户中途换意图",
+      "fallback": "重跑识别层，旧意图卡保留作对照"
+    },
+    {
+      "scenario": "下游无消费方（意图卡没人用）",
+      "fallback": "仍输出意图卡并标注「待接入」，不拒绝服务"
+    }
+  ],
+  "token_budget": {
+    "skill_md_lines": 260,
+    "skill_md_tokens": 2200,
+    "references": ["intent-card.md", "question-bank.md", "regressions.md"]
+  }
+}

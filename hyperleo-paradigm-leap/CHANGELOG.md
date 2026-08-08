@@ -1,5 +1,11 @@
 # paradigm-leap changelog
 
+## 1.3（2026-08-08）
+
+- 第 1 步「问题压缩」升级为「意图识别 + 问题压缩」：先调用 hyperleo-intent-recognition 输出意图卡（What/For whom/Decision/Success signal/Relationship），再压缩问题
+- 轻量版同步加入意图识别
+- 版本 1.2 → 1.3
+
 ## 1.2（2026-08-07）
 
 - 重命名：paradigm-leap → hyperleo-paradigm-leap（HyperLeo 命名规范，非破坏性重命名）

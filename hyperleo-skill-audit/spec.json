@@ -1,0 +1,61 @@
+{
+  "name": "hyperleo-skill-audit",
+  "display_name": "技能合理性审计",
+  "short_description": "审视 Skill 的纯粹性、解耦与独立生态位",
+  "one_liner": "审视一个 Skill 的合理性：纯粹性、功能解耦、独立意图与生态位，输出裁决卡与「独立/合并/拆分/重构」建议",
+  "date": "2026-08-08",
+  "triggers": [
+    "审视一下这个 skill 合不合理",
+    "这个 skill 纯粹吗",
+    "这个技能职责是不是太多了",
+    "检查一下这个 skill 是否解耦",
+    "这个 skill 有没有独立的生态位",
+    "两个 skill 是不是重叠了，该不该合并",
+    "帮我判断这个技能该独立还是该拆",
+    "审一下这个 skill 有没有独立意图"
+  ],
+  "anti_triggers": [
+    "对 skill 做四维健康体检与优化方案（走 skill-analyst）",
+    "创建/升级技能本体（走 skill-forge）",
+    "把技能发布到 GitHub（走 skill-publisher）"
+  ],
+  "input_output": {
+    "input": "目标 skill 目录/SKILL.md 路径（可附同级技能目录作生态位参照）",
+    "output": "裁决卡：纯粹性/解耦/独立意图/生态位四项检查 + 结论（独立/合并/拆分/重构）+ 证据位置",
+    "acceptance": [
+      "裁决卡含 4 项检查（纯粹/解耦/独立意图/生态位），每项附证据位置",
+      "独立意图检查调用 hyperleo-intent-recognition 输出目标 skill 的意图卡",
+      "生态位检查至少对比 2 个同级 skill",
+      "结论四选一（独立/合并/拆分/重构），附触发条件与失效条件",
+      "只读，不修改目标 skill"
+    ]
+  },
+  "freedom": "medium",
+  "failure_modes": [
+    {
+      "scenario": "目标路径不存在",
+      "fallback": "停止并询问，不猜测路径"
+    },
+    {
+      "scenario": "无同级参照目录",
+      "fallback": "只评前三项，生态位标「待验证」"
+    },
+    {
+      "scenario": "目标 skill 过小（<20 行）",
+      "fallback": "判「雏形」，不做拆分建议"
+    },
+    {
+      "scenario": "意图识别不可用",
+      "fallback": "手工提取意图，标注渠道缺失"
+    },
+    {
+      "scenario": "被审计对象是本技能自身",
+      "fallback": "使用独立外部检查器与清单，避免自我辩护偏差"
+    }
+  ],
+  "token_budget": {
+    "skill_md_lines": 260,
+    "skill_md_tokens": 2200,
+    "references": ["audit-card.md", "purity-checklist.md", "regressions.md"]
+  }
+}
