@@ -23,7 +23,6 @@
 | hyperleo-small-council | 0.2 | 把高风险、多步骤、多 agent 的交付任务变成「分权 + 证据 + 状态机 + 人工门」的治理系统：实现、审查、发布、记账角色分离，流程可恢复，失败可沉淀 |
 | hyperleo-world-search-pro | 1.2 | 动手前的方案侦察 + 决策 + 归档完整流水线：多引擎检索、六层选型、业务价值与许可硬检查、谱系解释、Verdict 行与置信度、报告归档 |
 | medlit-search | 0.1 | 医药/生命科学文献检索与交叉验证（NCBI E-utilities/PubMed + Europe PMC REST API） |
-| verification-before-completion | 0.1 | Use when about to claim work is complete, fixed, or passing, before committing or creating… |
 
 ## 版本管理规则
 
