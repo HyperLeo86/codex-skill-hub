@@ -1,0 +1,31 @@
+{
+  "pir_version": "0.2",
+  "core_required": ["meta", "summary", "claims", "evidence", "view"],
+  "core_optional": ["relations", "uncertainty", "technical", "metadata"],
+  "enums": {
+    "task": ["browse", "compare", "diagnose", "decide", "learn", "monitor"],
+    "view_type": ["decision", "diagnosis", "comparison", "monitor", "browse", "learning"],
+    "epistemic_state": ["VERIFIED", "UNKNOWN", "UNMEASURED", "UNSTABLE", "UNVERIFIED", "N/A"],
+    "derivation_type": ["DIRECT_FACT", "DERIVED", "INTERPRETATION", "ASSUMPTION"],
+    "priority": ["critical", "important", "supporting", "technical"]
+  },
+  "claim_required": ["claim_id", "content", "derivation_type", "epistemic_state"],
+  "claim_optional": ["priority", "evidence", "outcome"],
+  "evidence_required": ["id", "source_id", "locator", "verified"],
+  "evidence_optional": ["source_type", "content_hash", "snapshot", "captured_at", "detail"],
+  "view_required": {
+    "decision": ["state", "action"],
+    "diagnosis": ["problem", "action"],
+    "comparison": ["items", "dimensions"],
+    "monitor": ["current_state", "exceptions"],
+    "browse": ["categories"],
+    "learning": ["core_concepts"]
+  },
+  "limits": {
+    "summary_max_chars": 400,
+    "claims_max": 10,
+    "first_screen_critical_important_max": 7,
+    "false_precision_min_decimals": 3
+  },
+  "forbidden_outcome_with_unknown_epistemic": ["FAIL", "FAILURE", "NEGATIVE", "DEPRECATE"]
+}

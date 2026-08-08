@@ -7,6 +7,7 @@
 | 技能 | 版本 | 说明 |
 | --- | --- | --- |
 | hyperleo-ash-verdict | 1.0 | 任务或过程失败后，重放意图与过程，只输出事实、1-2 条技术性错误/缺失、0-1 条人文性错误/概念，并写入错误日志 |
+| hyperleo-cognitive-renderer | 0.2.0 | 将机器信息编译为与人类当前任务和认知方式匹配的高信噪比视图，同时保留事实、不确定性与证据链（Human Information Compilation Pipeline：Compi… |
 | hyperleo-github-lens | 0.3.0 | 把任意 GitHub URL 变成一张可复现、可校准、可累积的项目分析卡，并同步进 Obsidian 看板（汇总 + 简页 + 深入分析） |
 | hyperleo-hub-sync | 0.2 | 把私有技能仓库 codex-skill-hub 的最新版本拉取到本机并更新 ~/.codex/skills：git 拉取 → 逐技能比对 → 备份旧版 → 覆盖安装 → 报告差异 |
 | hyperleo-image-gen-router | 1.1 | 统一路由并调用用户已开通的生图 API（阿里通义万相 DashScope、火山方舟 ARK），按可用 Key 与任务类型自动选择模型，未来新增提供方只需扩展注册表 |

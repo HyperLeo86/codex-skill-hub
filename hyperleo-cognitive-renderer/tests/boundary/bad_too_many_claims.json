@@ -1,0 +1,23 @@
+{
+  "meta": {"title": "陷阱：首屏超载", "task": "decide", "source": "test", "generated_at": "2026-08-08", "version": "0.2"},
+  "summary": "故意放 11 条 critical claim。",
+  "claims": [
+    {"claim_id": "c-01", "content": "结论一", "derivation_type": "DIRECT_FACT", "epistemic_state": "VERIFIED", "priority": "critical", "evidence": ["ev-1"]},
+    {"claim_id": "c-02", "content": "结论二", "derivation_type": "DIRECT_FACT", "epistemic_state": "VERIFIED", "priority": "critical", "evidence": ["ev-1"]},
+    {"claim_id": "c-03", "content": "结论三", "derivation_type": "DIRECT_FACT", "epistemic_state": "VERIFIED", "priority": "critical", "evidence": ["ev-1"]},
+    {"claim_id": "c-04", "content": "结论四", "derivation_type": "DIRECT_FACT", "epistemic_state": "VERIFIED", "priority": "critical", "evidence": ["ev-1"]},
+    {"claim_id": "c-05", "content": "结论五", "derivation_type": "DIRECT_FACT", "epistemic_state": "VERIFIED", "priority": "critical", "evidence": ["ev-1"]},
+    {"claim_id": "c-06", "content": "结论六", "derivation_type": "DIRECT_FACT", "epistemic_state": "VERIFIED", "priority": "critical", "evidence": ["ev-1"]},
+    {"claim_id": "c-07", "content": "结论七", "derivation_type": "DIRECT_FACT", "epistemic_state": "VERIFIED", "priority": "critical", "evidence": ["ev-1"]},
+    {"claim_id": "c-08", "content": "结论八", "derivation_type": "DIRECT_FACT", "epistemic_state": "VERIFIED", "priority": "critical", "evidence": ["ev-1"]},
+    {"claim_id": "c-09", "content": "结论九", "derivation_type": "DIRECT_FACT", "epistemic_state": "VERIFIED", "priority": "critical", "evidence": ["ev-1"]},
+    {"claim_id": "c-10", "content": "结论十", "derivation_type": "DIRECT_FACT", "epistemic_state": "VERIFIED", "priority": "critical", "evidence": ["ev-1"]},
+    {"claim_id": "c-11", "content": "结论十一", "derivation_type": "DIRECT_FACT", "epistemic_state": "VERIFIED", "priority": "critical", "evidence": ["ev-1"]}
+  ],
+  "evidence": [
+    {"id": "ev-1", "source_id": "test", "locator": "t1", "detail": "来源", "verified": true}
+  ],
+  "view": {"type": "decision", "state": "OK", "action": "无"},
+  "technical": {},
+  "metadata": {}
+}

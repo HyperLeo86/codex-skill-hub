@@ -1,0 +1,16 @@
+{
+  "view_type": "decision",
+  "description": "状态卡 + blocker + action；用于 decide / diagnose",
+  "fields": ["type", "state", "outcome", "epistemic_state", "reason", "risk", "action", "blockers"],
+  "required": ["state", "action"],
+  "example": {
+    "type": "decision",
+    "state": "HOLD",
+    "outcome": "HEALTHY",
+    "epistemic_state": "UNMEASURED",
+    "reason": "缺证据",
+    "risk": "未验证风险",
+    "action": "补齐证据后重新认证",
+    "blockers": []
+  }
+}

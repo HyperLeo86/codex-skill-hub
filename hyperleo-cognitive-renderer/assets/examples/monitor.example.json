@@ -1,0 +1,50 @@
+{
+  "meta": {"title": "服务状态监控", "task": "monitor", "source": "example", "generated_at": "2026-08-08", "version": "0.2"},
+  "summary": "核心服务正常，一处缓存异常需要处理。",
+  "claims": [
+    {
+      "claim_id": "c-01",
+      "content": "API 服务正常",
+      "derivation_type": "DIRECT_FACT",
+      "epistemic_state": "VERIFIED",
+      "priority": "critical",
+      "evidence": ["ev-1"]
+    },
+    {
+      "claim_id": "c-02",
+      "content": "缓存命中率下降",
+      "derivation_type": "DERIVED",
+      "epistemic_state": "UNSTABLE",
+      "priority": "critical",
+      "evidence": ["ev-2"]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "ev-1",
+      "source_id": "health-check",
+      "source_type": "api",
+      "locator": "GET /health",
+      "detail": "200 OK",
+      "verified": true
+    },
+    {
+      "id": "ev-2",
+      "source_id": "metrics",
+      "source_type": "run",
+      "locator": "metrics/cache-hit",
+      "detail": "命中率 95% → 82%",
+      "verified": true
+    }
+  ],
+  "view": {
+    "type": "monitor",
+    "current_state": {"API": "✅ 正常", "缓存": "⚠️ 命中率 82%", "数据库": "✅ 正常"},
+    "changes": ["缓存命中率 95% → 82%"],
+    "exceptions": ["缓存命中率低于阈值 85%"],
+    "action_required": ["检查缓存配置或扩容"]
+  },
+  "uncertainty": {"overall_epistemic_state": "VERIFIED"},
+  "technical": {"fields": {"service": "api-gateway"}, "raw": ""},
+  "metadata": {"renderer_note": "v0.2 monitor view 示例"}
+}

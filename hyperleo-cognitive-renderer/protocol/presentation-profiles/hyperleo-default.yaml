@@ -1,0 +1,20 @@
+profile: hyperleo-default
+locale: zh-CN
+target: obsidian
+style:
+  density: compact
+  signal_to_noise: high
+  primary_representation: table
+  narrative: minimal
+  emoji: restrained
+  visual_emphasis: sparse
+details:
+  technical: collapsed
+  provenance: on_demand
+  raw_fields: hidden
+numbers:
+  percentage_precision: 0
+  remove_false_precision: true
+limits:
+  emphasis_max: 3
+  first_screen_items_max: 7

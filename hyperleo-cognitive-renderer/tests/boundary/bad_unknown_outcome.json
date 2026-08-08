@@ -1,0 +1,20 @@
+{
+  "meta": {"title": "陷阱：UNKNOWN 映射为失败", "task": "decide", "source": "test", "generated_at": "2026-08-08", "version": "0.2"},
+  "summary": "故意把 UNKNOWN 映射成失败。",
+  "claims": [
+    {
+      "claim_id": "c-01",
+      "content": "状态未知",
+      "derivation_type": "DIRECT_FACT",
+      "epistemic_state": "UNKNOWN",
+      "priority": "critical",
+      "evidence": ["ev-1"]
+    }
+  ],
+  "evidence": [
+    {"id": "ev-1", "source_id": "test", "locator": "t1", "detail": "未知", "verified": false}
+  ],
+  "view": {"type": "decision", "outcome": "FAILURE", "epistemic_state": "UNKNOWN", "state": "FAIL", "action": "无"},
+  "technical": {},
+  "metadata": {}
+}

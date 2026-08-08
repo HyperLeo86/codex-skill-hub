@@ -1,0 +1,54 @@
+{
+  "meta": {"title": "两种渲染方案对比", "task": "compare", "source": "example", "generated_at": "2026-08-08", "version": "0.2"},
+  "summary": "方案 A 更快但覆盖终端少；方案 B 慢但覆盖多端。",
+  "claims": [
+    {
+      "claim_id": "c-01",
+      "content": "方案 A 渲染速度最快",
+      "derivation_type": "DIRECT_FACT",
+      "epistemic_state": "VERIFIED",
+      "priority": "important",
+      "evidence": ["ev-1"]
+    },
+    {
+      "claim_id": "c-02",
+      "content": "方案 B 支持多端输出",
+      "derivation_type": "DIRECT_FACT",
+      "epistemic_state": "VERIFIED",
+      "priority": "important",
+      "evidence": ["ev-2"]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "ev-1",
+      "source_id": "benchmark",
+      "source_type": "run",
+      "locator": "bench/2026-08-08",
+      "detail": "A=1.2s",
+      "verified": true
+    },
+    {
+      "id": "ev-2",
+      "source_id": "docs",
+      "source_type": "doc",
+      "locator": "docs/multi-endpoint",
+      "detail": "B 支持 3 端",
+      "verified": true
+    }
+  ],
+  "view": {
+    "type": "comparison",
+    "items": [{"id": "A", "label": "方案 A"}, {"id": "B", "label": "方案 B"}],
+    "dimensions": ["速度", "多端支持", "维护成本"],
+    "values": {
+      "A": {"速度": "快", "多端支持": "1 端", "维护成本": "低"},
+      "B": {"速度": "中", "多端支持": "3 端", "维护成本": "中"}
+    },
+    "key_differences": ["多端支持差异最大"],
+    "tradeoffs": ["A 快但只支持单端", "B 慢但多端"],
+    "recommendation": "先用 A 验证结构，再迁移到 B 多端"
+  },
+  "technical": {"fields": {"profile": "hyperleo-default"}, "raw": ""},
+  "metadata": {"renderer_note": "v0.2 comparison view 示例"}
+}

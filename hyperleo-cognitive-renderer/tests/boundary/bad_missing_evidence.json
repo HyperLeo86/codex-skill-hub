@@ -1,0 +1,18 @@
+{
+  "meta": {"title": "陷阱：无证据断言", "task": "decide", "source": "test", "generated_at": "2026-08-08", "version": "0.2"},
+  "summary": "故意做出无证据断言。",
+  "claims": [
+    {
+      "claim_id": "c-01",
+      "content": "这条结论没有证据",
+      "derivation_type": "INTERPRETATION",
+      "epistemic_state": "VERIFIED",
+      "priority": "critical",
+      "evidence": []
+    }
+  ],
+  "evidence": [],
+  "view": {"type": "decision", "state": "OK", "action": "无"},
+  "technical": {},
+  "metadata": {}
+}

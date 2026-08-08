@@ -1,0 +1,20 @@
+{
+  "meta": {"title": "陷阱：数字伪精度", "task": "decide", "source": "test", "generated_at": "2026-08-08", "version": "0.2"},
+  "summary": "故意在 claim 里放 0.9375。",
+  "claims": [
+    {
+      "claim_id": "c-01",
+      "content": "证据完整度 0.9375",
+      "derivation_type": "DIRECT_FACT",
+      "epistemic_state": "VERIFIED",
+      "priority": "critical",
+      "evidence": ["ev-1"]
+    }
+  ],
+  "evidence": [
+    {"id": "ev-1", "source_id": "test", "locator": "t1", "detail": "来源", "verified": true}
+  ],
+  "view": {"type": "decision", "state": "OK", "action": "无"},
+  "technical": {},
+  "metadata": {}
+}

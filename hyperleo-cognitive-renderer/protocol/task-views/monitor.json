@@ -1,0 +1,13 @@
+{
+  "view_type": "monitor",
+  "description": "Status Table + Change + Exception + Action；用于 monitor",
+  "fields": ["type", "current_state", "changes", "exceptions", "action_required"],
+  "required": ["current_state", "exceptions"],
+  "example": {
+    "type": "monitor",
+    "current_state": {"API": "正常"},
+    "changes": ["命中率下降"],
+    "exceptions": ["阈值告警"],
+    "action_required": ["检查配置"]
+  }
+}

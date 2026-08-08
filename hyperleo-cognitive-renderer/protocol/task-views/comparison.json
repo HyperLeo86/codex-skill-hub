@@ -1,0 +1,15 @@
+{
+  "view_type": "comparison",
+  "description": "Comparison Table + Trade-off + Recommendation；用于 compare",
+  "fields": ["type", "items", "dimensions", "values", "key_differences", "tradeoffs", "recommendation"],
+  "required": ["items", "dimensions"],
+  "example": {
+    "type": "comparison",
+    "items": [{"id": "A", "label": "方案 A"}],
+    "dimensions": ["速度", "成本"],
+    "values": {"A": {"速度": "快", "成本": "低"}},
+    "key_differences": ["差异点"],
+    "tradeoffs": ["权衡"],
+    "recommendation": "推荐 A"
+  }
+}

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Cognitive Renderer · 认知渲染器"
+  short_description: "Compiler → PIR → Task View + Profile → Renderer → Structural Gate"
+  default_prompt: "Use $hyperleo-cognitive-renderer to compile machine information into a task-matched, high-signal, traceable human view."

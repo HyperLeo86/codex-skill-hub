@@ -1,0 +1,64 @@
+{
+  "name": "hyperleo-cognitive-renderer",
+  "display_name": "Cognitive Renderer · 认知渲染器",
+  "date": "2026-08-08",
+  "one_liner": "将机器信息编译为与人类当前任务和认知方式匹配的高信噪比视图，同时保留事实、不确定性与证据链",
+  "short_description": "Human Information Compilation Pipeline：Compiler → PIR → Task View + Profile → Renderer → Structural Gate",
+  "triggers": [
+    "把这份机器输出整理成人类可读的报告",
+    "这个结果太乱了，帮我重新组织成能快速看的界面",
+    "把数据库返回的结构化信息变成人能看懂的卡片",
+    "用认知渲染器把这个分析结果渲染一下",
+    "帮我规范 Agent 报告的输出格式",
+    "这份状态数据按可读性规范重新渲染",
+    "把复杂信息做成 3 秒能看懂的状态卡"
+  ],
+  "anti_triggers": [
+    "生成海报/图片/PPT 视觉稿（走 imagegen / presentations）",
+    "修改底层数据源或业务逻辑（本技能只渲染，不改事实）"
+  ],
+  "input_output": {
+    "input": "原始机器信息（DB / Agent JSON / 文件 / API）或已编译的 Presentation IR（PIR）",
+    "output": "任务匹配的 Markdown 决策视图（decision / diagnosis / comparison / monitor；Obsidian 优先）",
+    "acceptance": [
+      "check_structure.py（Structural Gate）100% 通过",
+      "Outcome 与 Epistemic State 分离；ASSUMPTION 机器可识别（derivation_type）",
+      "相同 PIR + Presentation Profile → 完全一致的 Markdown（确定性）",
+      "3–5 秒 Time to Orientation（这是什么 / 整体状态 / 最重要信息 / 需关注问题 / 从哪继续看）",
+      "支持视图明确声明：decision / diagnosis / comparison / monitor；browse / learning 报错不渲染"
+    ]
+  },
+  "freedom": "medium",
+  "failure_modes": [
+    {
+      "scenario": "输入无 schema（原始文本）",
+      "fallback": "先经 Semantic Compiler 抽取为 PIR；缺失字段标 ASSUMPTION"
+    },
+    {
+      "scenario": "view.type 为 browse / learning",
+      "fallback": "明确报错「v0.2 未实现」，不强行渲染"
+    },
+    {
+      "scenario": "证据缺失 / 不可追溯",
+      "fallback": "epistemic_state=UNVERIFIED，不编造 locator / hash"
+    },
+    {
+      "scenario": "Structural Gate 不通过",
+      "fallback": "回 Phase A/B 修复，最多 2 轮；仍不过则输出草稿 + 失败清单，标「待验证」"
+    }
+  ],
+  "token_budget": {
+    "skill_md_lines": 240,
+    "skill_md_tokens": 2300,
+    "references": [
+      "architecture.md",
+      "cognitive-fit.md",
+      "uncertainty.md",
+      "provenance.md",
+      "rendering-rules.md",
+      "readability.md",
+      "regressions.md"
+    ]
+  },
+  "default_prompt": "Use $hyperleo-cognitive-renderer to compile machine information into a task-matched, high-signal, traceable human view."
+}

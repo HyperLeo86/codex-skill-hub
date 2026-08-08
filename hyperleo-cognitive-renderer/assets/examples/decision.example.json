@@ -1,0 +1,70 @@
+{
+  "meta": {"title": "Skill Audit：hyperleo-intent-recognition", "task": "decide", "source": "example", "generated_at": "2026-08-08", "version": "0.2"},
+  "summary": "七维审计基本通过，但 Usage 与 Reproducibility 未验证，暂缓正式认证。",
+  "claims": [
+    {
+      "claim_id": "c-01",
+      "content": "Identity 与 Purity 通过，职责边界清晰",
+      "derivation_type": "DIRECT_FACT",
+      "epistemic_state": "VERIFIED",
+      "priority": "critical",
+      "evidence": ["ev-1"]
+    },
+    {
+      "claim_id": "c-02",
+      "content": "Usage 未验证，无法证明被真实任务调用",
+      "derivation_type": "DERIVED",
+      "epistemic_state": "UNMEASURED",
+      "priority": "critical",
+      "evidence": ["ev-2"]
+    },
+    {
+      "claim_id": "c-03",
+      "content": "Reproducibility 未验证，无独立复现记录",
+      "derivation_type": "DERIVED",
+      "epistemic_state": "UNMEASURED",
+      "priority": "important",
+      "evidence": ["ev-2"]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "ev-1",
+      "source_id": "SKILL.md",
+      "source_type": "file",
+      "locator": "line 18-22",
+      "detail": "single_job PASS",
+      "content_hash": "sha256:abc",
+      "snapshot": "v0.1.0",
+      "captured_at": "2026-08-08",
+      "verified": true
+    },
+    {
+      "id": "ev-2",
+      "source_id": "audit-protocol",
+      "source_type": "run",
+      "locator": "output.json",
+      "detail": "usage=0 · reproducibility=0",
+      "content_hash": "sha256:def",
+      "snapshot": "run-042",
+      "captured_at": "2026-08-08",
+      "verified": true
+    }
+  ],
+  "view": {
+    "type": "decision",
+    "outcome": "HEALTHY",
+    "epistemic_state": "UNMEASURED",
+    "state": "HOLD",
+    "reason": "缺 Usage 与 Reproducibility 证据",
+    "risk": "未经验证的能力可能在实际任务中失效",
+    "action": "补齐 Usage 证据后重新认证",
+    "blockers": []
+  },
+  "uncertainty": {"overall_epistemic_state": "UNMEASURED"},
+  "technical": {
+    "fields": {"protocol_hash": "abc123", "evidence_hash": "def456"},
+    "raw": "snapshot=1.0; decision_evidence=0.9375; usage=0; reproducibility=0"
+  },
+  "metadata": {"renderer_note": "v0.2 decision view 示例"}
+}
